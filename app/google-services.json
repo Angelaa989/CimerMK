@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "624699746827",
+    "project_id": "cimermk-658cc",
+    "storage_bucket": "cimermk-658cc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624699746827:android:d2daff5148abe6b0b1750e",
+        "android_client_info": {
+          "package_name": "mk.cimerapp.cimermk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClQ-I953QV5-PHZGe8mtX_dTCLQ0DsKoE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
