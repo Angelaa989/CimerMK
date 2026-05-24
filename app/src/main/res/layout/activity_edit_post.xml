@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/etEditTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"/>
+
+    <EditText
+        android:id="@+id/etEditCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="City"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/etEditPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Price"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/etEditDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:minLines="4"
+        android:gravity="top"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/btnUpdatePost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Post"
+        android:layout_marginTop="24dp"/>
+
+</LinearLayout>

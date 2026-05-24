@@ -2,10 +2,10 @@ package mk.cimerapp.cimermk
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -39,29 +39,53 @@ class HomeActivity : AppCompatActivity() {
 
         loadPosts()
 
-        val logoutButton =
-            findViewById<Button>(R.id.btnLogout)
-
-        val createPostButton =
-            findViewById<Button>(R.id.btnCreatePost)
-
-        logoutButton.setOnClickListener {
-
-            FirebaseAuth.getInstance().signOut()
-
-            startActivity(
-                Intent(this, LoginActivity::class.java)
+        val bottomNavigation =
+            findViewById<BottomNavigationView>(
+                R.id.bottomNavigation
             )
 
-            finish()
-        }
+        bottomNavigation.setOnItemSelectedListener {
 
-        createPostButton.setOnClickListener {
+            when (it.itemId) {
 
-            startActivity(
-                Intent(this, CreatePostActivity::class.java)
-            )
+                R.id.nav_home -> {
+
+                    true
+                }
+
+                R.id.nav_add -> {
+
+                    startActivity(
+                        Intent(
+                            this,
+                            CreatePostActivity::class.java
+                        )
+                    )
+
+                    true
+                }
+
+                R.id.nav_profile -> {
+
+                    startActivity(
+                        Intent(
+                            this,
+                            ProfileActivity::class.java
+                        )
+                    )
+
+                    true
+                }
+
+                else -> false
+            }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        loadPosts()
     }
 
     private fun loadPosts() {
@@ -76,6 +100,8 @@ class HomeActivity : AppCompatActivity() {
 
                     val post =
                         document.toObject(Post::class.java)
+
+                    post.documentId = document.id
 
                     postList.add(post)
                 }

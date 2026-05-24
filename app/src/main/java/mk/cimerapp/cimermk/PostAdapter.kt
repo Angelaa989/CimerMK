@@ -1,13 +1,17 @@
 package mk.cimerapp.cimermk
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class PostAdapter(
-    private val postList: List<Post>
+    private val postList: ArrayList<Post>
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     class PostViewHolder(itemView: View)
@@ -24,6 +28,12 @@ class PostAdapter(
 
         val description: TextView =
             itemView.findViewById(R.id.tvDescription)
+
+        val deleteButton: Button =
+            itemView.findViewById(R.id.btnDelete)
+
+        val editButton: Button =
+            itemView.findViewById(R.id.btnEdit)
     }
 
     override fun onCreateViewHolder(
@@ -52,6 +62,75 @@ class PostAdapter(
         holder.city.text = post.city
         holder.price.text = post.price + " €"
         holder.description.text = post.description
+
+        val currentUserId =
+            FirebaseAuth.getInstance()
+                .currentUser
+                ?.uid
+
+        if (post.userId == currentUserId) {
+
+            holder.deleteButton.setOnClickListener {
+
+                FirebaseFirestore.getInstance()
+                    .collection("posts")
+                    .document(post.documentId)
+                    .delete()
+
+                postList.removeAt(position)
+
+                notifyItemRemoved(position)
+
+                notifyItemRangeChanged(
+                    position,
+                    postList.size
+                )
+            }
+
+            holder.editButton.setOnClickListener {
+
+                val intent = Intent(
+                    holder.itemView.context,
+                    EditPostActivity::class.java
+                )
+
+                intent.putExtra(
+                    "documentId",
+                    post.documentId
+                )
+
+                intent.putExtra(
+                    "title",
+                    post.title
+                )
+
+                intent.putExtra(
+                    "city",
+                    post.city
+                )
+
+                intent.putExtra(
+                    "price",
+                    post.price
+                )
+
+                intent.putExtra(
+                    "description",
+                    post.description
+                )
+
+                holder.itemView.context
+                    .startActivity(intent)
+            }
+
+        } else {
+
+            holder.deleteButton.visibility =
+                View.GONE
+
+            holder.editButton.visibility =
+                View.GONE
+        }
     }
 
     override fun getItemCount(): Int {

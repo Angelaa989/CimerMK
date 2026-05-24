@@ -2,6 +2,8 @@ package mk.cimerapp.cimermk
 
 data class Post(
 
+    var documentId: String = "",
+
     val title: String = "",
 
     val city: String = "",
