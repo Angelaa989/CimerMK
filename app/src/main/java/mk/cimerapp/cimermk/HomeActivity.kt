@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeActivity : AppCompatActivity() {
@@ -76,7 +75,17 @@ class HomeActivity : AppCompatActivity() {
 
                     true
                 }
+                R.id.nav_favorites -> {
 
+                    startActivity(
+                        Intent(
+                            this,
+                            FavoritesActivity::class.java
+                        )
+                    )
+
+                    true
+                }
                 else -> false
             }
         }

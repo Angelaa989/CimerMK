@@ -12,5 +12,7 @@ data class Post(
 
     val description: String = "",
 
-    val userId: String = ""
+    val userId: String = "",
+
+    var isFavorite: Boolean = false
 )

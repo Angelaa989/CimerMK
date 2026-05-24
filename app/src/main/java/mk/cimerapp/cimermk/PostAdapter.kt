@@ -32,6 +32,9 @@ class PostAdapter(
         val deleteButton: Button =
             itemView.findViewById(R.id.btnDelete)
 
+        val favoriteButton: Button =
+            itemView.findViewById(R.id.btnFavorite)
+
         val editButton: Button =
             itemView.findViewById(R.id.btnEdit)
     }
@@ -62,6 +65,37 @@ class PostAdapter(
         holder.city.text = post.city
         holder.price.text = post.price + " €"
         holder.description.text = post.description
+
+        if (post.isFavorite) {
+
+            holder.favoriteButton.text = "❤ Saved"
+
+        } else {
+
+            holder.favoriteButton.text = "❤ Favorite"
+        }
+
+        holder.favoriteButton.setOnClickListener {
+
+            post.isFavorite = !post.isFavorite
+
+            FirebaseFirestore.getInstance()
+                .collection("posts")
+                .document(post.documentId)
+                .update(
+                    "favorite",
+                    post.isFavorite
+                )
+
+            if (post.isFavorite) {
+
+                holder.favoriteButton.text = "❤ Saved"
+
+            } else {
+
+                holder.favoriteButton.text = "❤ Favorite"
+            }
+        }
 
         val currentUserId =
             FirebaseAuth.getInstance()
