@@ -36,6 +36,12 @@ class FavoritesActivity : AppCompatActivity() {
         loadFavorites()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        loadFavorites()
+    }
+
     private fun loadFavorites() {
 
         FirebaseFirestore.getInstance()

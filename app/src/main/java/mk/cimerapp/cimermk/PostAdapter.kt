@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -68,11 +69,13 @@ class PostAdapter(
 
         if (post.isFavorite) {
 
-            holder.favoriteButton.text = "❤ Saved"
+            holder.favoriteButton.text =
+                "❤ Saved"
 
         } else {
 
-            holder.favoriteButton.text = "❤ Favorite"
+            holder.favoriteButton.text =
+                "❤ Favorite"
         }
 
         holder.favoriteButton.setOnClickListener {
@@ -89,11 +92,22 @@ class PostAdapter(
 
             if (post.isFavorite) {
 
-                holder.favoriteButton.text = "❤ Saved"
+                holder.favoriteButton.text =
+                    "❤ Saved"
 
             } else {
 
-                holder.favoriteButton.text = "❤ Favorite"
+                holder.favoriteButton.text =
+                    "❤ Favorite"
+
+                postList.removeAt(position)
+
+                notifyItemRemoved(position)
+
+                notifyItemRangeChanged(
+                    position,
+                    postList.size
+                )
             }
         }
 
@@ -104,21 +118,48 @@ class PostAdapter(
 
         if (post.userId == currentUserId) {
 
+            holder.deleteButton.visibility =
+                View.VISIBLE
+
+            holder.editButton.visibility =
+                View.VISIBLE
+
             holder.deleteButton.setOnClickListener {
 
-                FirebaseFirestore.getInstance()
-                    .collection("posts")
-                    .document(post.documentId)
-                    .delete()
-
-                postList.removeAt(position)
-
-                notifyItemRemoved(position)
-
-                notifyItemRangeChanged(
-                    position,
-                    postList.size
+                AlertDialog.Builder(
+                    holder.itemView.context
                 )
+                    .setTitle("Delete Post")
+
+                    .setMessage(
+                        "Are you sure you want to delete this post?"
+                    )
+
+                    .setPositiveButton(
+                        "Yes"
+                    ) { _, _ ->
+
+                        FirebaseFirestore.getInstance()
+                            .collection("posts")
+                            .document(post.documentId)
+                            .delete()
+
+                        postList.removeAt(position)
+
+                        notifyItemRemoved(position)
+
+                        notifyItemRangeChanged(
+                            position,
+                            postList.size
+                        )
+                    }
+
+                    .setNegativeButton(
+                        "Cancel",
+                        null
+                    )
+
+                    .show()
             }
 
             holder.editButton.setOnClickListener {
@@ -168,6 +209,7 @@ class PostAdapter(
     }
 
     override fun getItemCount(): Int {
+
         return postList.size
     }
 }
