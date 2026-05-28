@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Please fill all fields",
+                    getString(R.string.fill_fields),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
 
                         Toast.makeText(
                             this,
-                            "Login successful",
+                            getString(R.string.login_success),
                             Toast.LENGTH_SHORT
                         ).show()
 

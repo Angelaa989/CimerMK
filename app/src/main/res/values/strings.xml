@@ -1,3 +1,62 @@
 <resources>
     <string name="app_name">CimerMK</string>
+    <string name="create_account">Create account</string>
+
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="logout">Logout</string>
+
+    <string name="create_roommate_post">Create roommate post</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <string name="saved">Saved</string>
+    <string name="favorite">Favorite</string>
+    <string name="gender">Gender</string>
+    <string name="yes">Yes</string>
+
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="all">All</string>
+
+    <string name="title">Title</string>
+    <string name="city">City</string>
+    <string name="price">Price</string>
+    <string name="description">Description</string>
+
+    <string name="save_post">Save Post</string>
+    <string name="update_post">Update Post</string>
+
+    <string name="search_posts">Search posts</string>
+
+    <string name="min_price">Min Price</string>
+    <string name="max_price">Max Price</string>
+
+    <string name="favorites">Favorites</string>
+
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+
+    <string name="cancel">Cancel</string>
+
+    <string name="confirm_delete">
+        Are you sure you want to delete this post?
+    </string>
+
+    <string name="fill_fields">Please fill all fields</string>
+    <string name="login_success">Login successful</string>
+    <string name="registration_success">Registration successful</string>
+
+    <string name="post_updated">Post updated</string>
+    <string name="update_error">Error updating post</string>
+
+    <string name="post_saved">Post saved successfully</string>
+    <string name="save_error">Error saving post</string>
+
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="add">Add</string>
+    <string name="saved_nav">Saved</string>
+    <string name="profile">Profile</string>
+
 </resources>

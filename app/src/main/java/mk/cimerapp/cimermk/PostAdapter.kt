@@ -27,6 +27,9 @@ class PostAdapter(
         val price: TextView =
             itemView.findViewById(R.id.tvPrice)
 
+        val gender: TextView =
+            itemView.findViewById(R.id.tvGender)
+
         val description: TextView =
             itemView.findViewById(R.id.tvDescription)
 
@@ -60,23 +63,26 @@ class PostAdapter(
         position: Int
     ) {
 
+        val context =
+            holder.itemView.context
+
         val post = postList[position]
 
         holder.title.text = post.title
         holder.city.text = post.city
         holder.price.text = post.price + " €"
+
+        holder.gender.text =
+            context.getString(R.string.gender) + ": " + post.gender
+
         holder.description.text = post.description
 
-        if (post.isFavorite) {
-
-            holder.favoriteButton.text =
-                "❤ Saved"
-
-        } else {
-
-            holder.favoriteButton.text =
-                "❤ Favorite"
-        }
+        holder.favoriteButton.text =
+            if (post.isFavorite) {
+                context.getString(R.string.saved)
+            } else {
+                context.getString(R.string.favorite)
+            }
 
         holder.favoriteButton.setOnClickListener {
 
@@ -90,15 +96,14 @@ class PostAdapter(
                     post.isFavorite
                 )
 
-            if (post.isFavorite) {
+            holder.favoriteButton.text =
+                if (post.isFavorite) {
+                    context.getString(R.string.saved)
+                } else {
+                    context.getString(R.string.favorite)
+                }
 
-                holder.favoriteButton.text =
-                    "❤ Saved"
-
-            } else {
-
-                holder.favoriteButton.text =
-                    "❤ Favorite"
+            if (!post.isFavorite) {
 
                 postList.removeAt(position)
 
@@ -126,17 +131,17 @@ class PostAdapter(
 
             holder.deleteButton.setOnClickListener {
 
-                AlertDialog.Builder(
-                    holder.itemView.context
-                )
-                    .setTitle("Delete Post")
+                AlertDialog.Builder(context)
+                    .setTitle(
+                        context.getString(R.string.delete)
+                    )
 
                     .setMessage(
-                        "Are you sure you want to delete this post?"
+                        context.getString(R.string.confirm_delete)
                     )
 
                     .setPositiveButton(
-                        "Yes"
+                        context.getString(R.string.yes)
                     ) { _, _ ->
 
                         FirebaseFirestore.getInstance()
@@ -155,7 +160,7 @@ class PostAdapter(
                     }
 
                     .setNegativeButton(
-                        "Cancel",
+                        context.getString(R.string.cancel),
                         null
                     )
 
@@ -165,7 +170,7 @@ class PostAdapter(
             holder.editButton.setOnClickListener {
 
                 val intent = Intent(
-                    holder.itemView.context,
+                    context,
                     EditPostActivity::class.java
                 )
 
@@ -190,12 +195,16 @@ class PostAdapter(
                 )
 
                 intent.putExtra(
+                    "gender",
+                    post.gender
+                )
+
+                intent.putExtra(
                     "description",
                     post.description
                 )
 
-                holder.itemView.context
-                    .startActivity(intent)
+                context.startActivity(intent)
             }
 
         } else {

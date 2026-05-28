@@ -11,8 +11,27 @@
         android:id="@+id/etSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search posts..."
-        android:padding="12dp"/>
+        android:hint="@string/search_posts"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/etMinPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/min_price"
+        android:inputType="number"/>
+
+    <EditText
+        android:id="@+id/etMaxPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/max_price"
+        android:inputType="number"/>
+
+    <Spinner
+        android:id="@+id/spGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSearch"

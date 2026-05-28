@@ -11,28 +11,33 @@
         android:id="@+id/etEditTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title"/>
+        android:hint="@string/title"/>
 
-    <EditText
-        android:id="@+id/etEditCity"
+    <Spinner
+        android:id="@+id/spEditCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="City"
         android:layout_marginTop="12dp"/>
 
     <EditText
         android:id="@+id/etEditPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Price"
+        android:hint="@string/price"
         android:inputType="numberDecimal"
         android:layout_marginTop="12dp"/>
+
+    <Spinner
+        android:id="@+id/spEditGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
 
     <EditText
         android:id="@+id/etEditDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Description"
+        android:hint="@string/description"
         android:minLines="4"
         android:gravity="top"
         android:layout_marginTop="12dp"/>
@@ -41,7 +46,7 @@
         android:id="@+id/btnUpdatePost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Update Post"
+        android:text="@string/update_post"
         android:layout_marginTop="24dp"/>
 
 </LinearLayout>

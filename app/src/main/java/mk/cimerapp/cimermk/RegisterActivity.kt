@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Please fill all fields",
+                    getString(R.string.fill_fields),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -45,7 +45,7 @@ class RegisterActivity : AppCompatActivity() {
 
                         Toast.makeText(
                             this,
-                            "Registration successful",
+                            getString(R.string.registration_success),
                             Toast.LENGTH_SHORT
                         ).show()
 
