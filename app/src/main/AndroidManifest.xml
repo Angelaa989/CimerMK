@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CimerMK">
         <activity
+            android:name=".LanguageActivity"
+            android:exported="false" />
+        <activity
             android:name=".SearchActivity"
             android:exported="false" />
         <activity

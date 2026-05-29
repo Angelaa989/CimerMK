@@ -173,10 +173,7 @@ class EditPostActivity : AppCompatActivity() {
         val currentGender =
             intent.getStringExtra("gender")
 
-        if (
-            currentGender ==
-            getString(R.string.female)
-        ) {
+        if (currentGender == "female") {
 
             genderSpinner.setSelection(1)
 
@@ -198,6 +195,13 @@ class EditPostActivity : AppCompatActivity() {
 
         updateButton.setOnClickListener {
 
+            val genderValue =
+                if (genderSpinner.selectedItemPosition == 0) {
+                    "male"
+                } else {
+                    "female"
+                }
+
             val updatedPost = hashMapOf<String, Any>(
 
                 "title" to title.text.toString(),
@@ -212,9 +216,7 @@ class EditPostActivity : AppCompatActivity() {
                     .text
                     .toString(),
 
-                "gender" to genderSpinner
-                    .selectedItem
-                    .toString()
+                "gender" to genderValue
             )
 
             if (documentId != null) {

@@ -2,6 +2,7 @@
 
     <string name="app_name">CimerMK</string>
     <string name="create_account">Креирај профил</string>
+    <string name="app_slogan">Најди цимер или стан</string>
 
     <string name="login">Најави се</string>
     <string name="register">Регистрирај се</string>

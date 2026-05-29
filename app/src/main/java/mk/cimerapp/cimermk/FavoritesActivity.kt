@@ -29,7 +29,10 @@ class FavoritesActivity : AppCompatActivity() {
 
         postList = arrayListOf()
 
-        adapter = PostAdapter(postList)
+        adapter = PostAdapter(
+            postList,
+            true
+        )
 
         recyclerView.adapter = adapter
 

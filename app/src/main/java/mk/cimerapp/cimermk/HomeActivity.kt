@@ -107,6 +107,14 @@ class HomeActivity : AppCompatActivity() {
         super.onResume()
 
         loadPosts()
+
+        val bottomNavigation =
+            findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
+                R.id.bottomNavigation
+            )
+
+        bottomNavigation.selectedItemId =
+            R.id.nav_home
     }
 
     private fun loadPosts() {

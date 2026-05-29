@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CimerMK</string>
     <string name="create_account">Create account</string>
+    <string name="app_slogan">Find a roommate or apartment</string>
 
     <string name="login">Login</string>
     <string name="register">Register</string>

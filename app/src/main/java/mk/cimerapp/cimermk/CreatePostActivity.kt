@@ -157,6 +157,13 @@ class CreatePostActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
 
+            val genderValue =
+                if (genderSpinner.selectedItemPosition == 0) {
+                    "male"
+                } else {
+                    "female"
+                }
+
             val postData = hashMapOf(
 
                 "title" to title.text.toString(),
@@ -169,9 +176,7 @@ class CreatePostActivity : AppCompatActivity() {
 
                 "description" to description.text.toString(),
 
-                "gender" to genderSpinner
-                    .selectedItem
-                    .toString(),
+                "gender" to genderValue,
 
                 "userId" to FirebaseAuth
                     .getInstance()

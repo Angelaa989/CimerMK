@@ -12,7 +12,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PostAdapter(
-    private val postList: ArrayList<Post>
+    private val postList: ArrayList<Post>,
+    private val isFavoritesScreen: Boolean = false
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     class PostViewHolder(itemView: View)
@@ -72,8 +73,15 @@ class PostAdapter(
         holder.city.text = post.city
         holder.price.text = post.price + " €"
 
+        val genderText =
+            if (post.gender == "female") {
+                context.getString(R.string.female)
+            } else {
+                context.getString(R.string.male)
+            }
+
         holder.gender.text =
-            context.getString(R.string.gender) + ": " + post.gender
+            context.getString(R.string.gender) + ": " + genderText
 
         holder.description.text = post.description
 
@@ -103,14 +111,14 @@ class PostAdapter(
                     context.getString(R.string.favorite)
                 }
 
-            if (!post.isFavorite) {
+            if (isFavoritesScreen && !post.isFavorite) {
 
-                postList.removeAt(position)
+                postList.removeAt(holder.adapterPosition)
 
-                notifyItemRemoved(position)
+                notifyItemRemoved(holder.adapterPosition)
 
                 notifyItemRangeChanged(
-                    position,
+                    holder.adapterPosition,
                     postList.size
                 )
             }

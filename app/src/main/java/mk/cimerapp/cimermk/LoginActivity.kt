@@ -4,16 +4,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        loadSavedLanguage()
+
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_login)
 
         auth = FirebaseAuth.getInstance()
@@ -24,8 +31,44 @@ class LoginActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.btnLogin)
         val registerButton = findViewById<Button>(R.id.btnGoToRegister)
 
+        val languageButton =
+            findViewById<TextView>(R.id.btnLanguage)
+
         registerButton.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+
+            startActivity(
+                Intent(
+                    this,
+                    RegisterActivity::class.java
+                )
+            )
+        }
+
+        languageButton.setOnClickListener {
+
+            val popupMenu =
+                PopupMenu(this, languageButton)
+
+            popupMenu.menu.add("Македонски")
+            popupMenu.menu.add("English")
+
+            popupMenu.setOnMenuItemClickListener {
+
+                if (it.title == "Македонски") {
+
+                    saveLanguage("mk")
+
+                } else {
+
+                    saveLanguage("en")
+                }
+
+                recreate()
+
+                true
+            }
+
+            popupMenu.show()
         }
 
         loginButton.setOnClickListener {
@@ -57,7 +100,10 @@ class LoginActivity : AppCompatActivity() {
                         ).show()
 
                         startActivity(
-                            Intent(this, HomeActivity::class.java)
+                            Intent(
+                                this,
+                                HomeActivity::class.java
+                            )
                         )
 
                         finish()
@@ -73,5 +119,51 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun saveLanguage(languageCode: String) {
+
+        val prefs =
+            getSharedPreferences(
+                "app_settings",
+                MODE_PRIVATE
+            )
+
+        prefs.edit()
+            .putString(
+                "language",
+                languageCode
+            )
+            .apply()
+    }
+
+    private fun loadSavedLanguage() {
+
+        val prefs =
+            getSharedPreferences(
+                "app_settings",
+                MODE_PRIVATE
+            )
+
+        val language =
+            prefs.getString(
+                "language",
+                "en"
+            )
+
+        val locale =
+            Locale(language ?: "en")
+
+        Locale.setDefault(locale)
+
+        val config =
+            resources.configuration
+
+        config.setLocale(locale)
+
+        resources.updateConfiguration(
+            config,
+            resources.displayMetrics
+        )
     }
 }
