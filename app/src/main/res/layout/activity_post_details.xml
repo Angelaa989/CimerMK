@@ -146,62 +146,8 @@
             android:text="@string/description"
             android:textSize="13sp"
             android:textColor="#666666"
-            android:maxLines="3"
-            android:ellipsize="end"
             android:lineSpacingMultiplier="1.5"
             android:layout_marginTop="10dp"/>
-
-        <!-- Buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="14dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnFavorite"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_weight="1"
-                android:text="@string/favorite"
-                android:textSize="12sp"
-                android:backgroundTint="#009991"
-                android:textColor="@android:color/white"
-                app:icon="@drawable/ic_heart"
-                app:iconSize="14dp"
-                app:iconGravity="textStart"
-                android:layout_marginEnd="6dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEdit"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_weight="1"
-                android:text="@string/edit"
-                android:textSize="12sp"
-                android:textColor="#009991"
-                app:strokeColor="#009991"
-                app:icon="@drawable/ic_edit"
-                app:iconSize="14dp"
-                app:iconGravity="textStart"
-                android:layout_marginEnd="6dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDelete"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_weight="1"
-                android:text="@string/delete"
-                android:textSize="12sp"
-                android:textColor="#C62828"
-                app:strokeColor="#E57373"
-                app:icon="@drawable/ic_trash"
-                app:iconSize="14dp"
-                app:iconGravity="textStart"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 

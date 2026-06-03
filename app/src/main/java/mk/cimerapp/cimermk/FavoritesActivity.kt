@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FavoritesActivity : AppCompatActivity() {
 
@@ -36,37 +39,59 @@ class FavoritesActivity : AppCompatActivity() {
 
         recyclerView.adapter = adapter
 
-        loadFavorites()
+        loadFavoritesFromRoom()
     }
 
     override fun onResume() {
         super.onResume()
 
-        loadFavorites()
+        loadFavoritesFromRoom()
     }
 
-    private fun loadFavorites() {
+    private fun loadFavoritesFromRoom() {
 
-        FirebaseFirestore.getInstance()
-            .collection("posts")
-            .whereEqualTo("favorite", true)
-            .get()
-            .addOnSuccessListener { documents ->
+        val database =
+            DatabaseProvider.getDatabase(this)
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val currentUserId =
+                com.google.firebase.auth.FirebaseAuth
+                    .getInstance()
+                    .currentUser
+                    ?.uid
+
+            if (currentUserId == null) {
+                return@launch
+            }
+
+            val savedPosts =
+                database.savedPostDao()
+                    .getPostsForUser(currentUserId)
+
+            val posts =
+                savedPosts.map { savedPost ->
+
+                    Post(
+                        documentId = savedPost.documentId,
+                        title = savedPost.title,
+                        city = savedPost.city,
+                        price = savedPost.price,
+                        gender = savedPost.gender,
+                        description = savedPost.description,
+                        isFavorite = true
+                    )
+                }
+
+            withContext(Dispatchers.Main) {
 
                 postList.clear()
 
-                for (document in documents) {
-
-                    val post =
-                        document.toObject(Post::class.java)
-
-                    post.documentId = document.id
-
-                    postList.add(post)
-                }
+                postList.addAll(posts)
 
                 adapter.notifyDataSetChanged()
             }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
+import android.widget.CheckBox
+import android.widget.TextView
 
 class SearchActivity : AppCompatActivity() {
 
@@ -28,6 +30,16 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var maxPriceEditText: EditText
 
     private lateinit var genderSpinner: Spinner
+
+    private lateinit var citySpinner: Spinner
+
+    private lateinit var tvShownPosts: TextView
+
+    private lateinit var cbRoommate: CheckBox
+
+    private lateinit var cbApartment: CheckBox
+
+    private lateinit var cbOffering: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +74,21 @@ class SearchActivity : AppCompatActivity() {
         genderSpinner =
             findViewById(R.id.spGender)
 
+        citySpinner =
+            findViewById(R.id.spSearchCity)
+
+        tvShownPosts =
+            findViewById(R.id.tvShownSearchPosts)
+
+        cbRoommate =
+            findViewById(R.id.cbSearchRoommate)
+
+        cbApartment =
+            findViewById(R.id.cbSearchApartment)
+
+        cbOffering =
+            findViewById(R.id.cbSearchOffering)
+
         val genderOptions = arrayOf(
             getString(R.string.all),
             getString(R.string.male),
@@ -79,6 +106,106 @@ class SearchActivity : AppCompatActivity() {
         )
 
         genderSpinner.adapter = spinnerAdapter
+
+        val cityOptions = arrayOf(
+            getString(R.string.all_cities),
+            "Аеродром",
+            "Арачиново",
+            "Берово",
+            "Битола",
+            "Богданци",
+            "Боговиње",
+            "Босилово",
+            "Брвеница",
+            "Бутел",
+            "Валандово",
+            "Василево",
+            "Вевчани",
+            "Велес",
+            "Виница",
+            "Вранештица",
+            "Врапчиште",
+            "Гази Баба",
+            "Гевгелија",
+            "Гостивар",
+            "Градско",
+            "Дебар",
+            "Дебарца",
+            "Делчево",
+            "Демир Капија",
+            "Демир Хисар",
+            "Дојран",
+            "Долнени",
+            "Другово",
+            "Желино",
+            "Зајас",
+            "Зелениково",
+            "Зрновци",
+            "Илинден",
+            "Јегуновце",
+            "Кавадарци",
+            "Карбинци",
+            "Карпош",
+            "Кичево",
+            "Кисела Вода",
+            "Конче",
+            "Кочани",
+            "Кратово",
+            "Крива Паланка",
+            "Кривогаштани",
+            "Крушево",
+            "Куманово",
+            "Липково",
+            "Лозово",
+            "Маврово и Ростуше",
+            "Македонска Каменица",
+            "Македонски Брод",
+            "Могила",
+            "Неготино",
+            "Новаци",
+            "Ново Село",
+            "Осломеј",
+            "Охрид",
+            "Петровец",
+            "Пехчево",
+            "Пласница",
+            "Прилеп",
+            "Пробиштип",
+            "Радовиш",
+            "Ранковце",
+            "Ресен",
+            "Росоман",
+            "Сарај",
+            "Свети Николе",
+            "Сопиште",
+            "Старо Нагоричане",
+            "Струга",
+            "Струмица",
+            "Студеничани",
+            "Теарце",
+            "Тетово",
+            "Центар",
+            "Центар Жупа",
+            "Чаир",
+            "Чашка",
+            "Чешиново и Облешево",
+            "Чучер Сандево",
+            "Штип",
+            "Шуто Оризари",
+            "Ѓорче Петров"
+        )
+
+        val cityAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            cityOptions
+        )
+
+        cityAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        citySpinner.adapter = cityAdapter
 
         loadPosts()
 
@@ -107,6 +234,38 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
         )
+
+        citySpinner.setOnItemSelectedListener(
+            object : android.widget.AdapterView.OnItemSelectedListener {
+
+                override fun onItemSelected(
+                    parent: android.widget.AdapterView<*>?,
+                    view: android.view.View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+                    filterPosts()
+                }
+
+                override fun onNothingSelected(
+                    parent: android.widget.AdapterView<*>?
+                ) {
+                }
+            }
+        )
+
+        cbRoommate.setOnCheckedChangeListener { _, _ ->
+            filterPosts()
+        }
+
+        cbApartment.setOnCheckedChangeListener { _, _ ->
+            filterPosts()
+        }
+
+        cbOffering.setOnCheckedChangeListener { _, _ ->
+            filterPosts()
+        }
     }
 
     private val searchWatcher =
@@ -159,6 +318,12 @@ class SearchActivity : AppCompatActivity() {
 
                 filteredList.addAll(postList)
 
+                tvShownPosts.text =
+                    getString(
+                        R.string.shown_posts,
+                        filteredList.size
+                    )
+
                 adapter.notifyDataSetChanged()
             }
     }
@@ -181,6 +346,26 @@ class SearchActivity : AppCompatActivity() {
         val selectedGender =
             genderSpinner.selectedItem.toString()
 
+
+        val selectedGenderCode =
+            when (selectedGender) {
+                getString(R.string.male) -> "male"
+                getString(R.string.female) -> "female"
+                else -> "all"
+            }
+
+        val selectedCity =
+            citySpinner.selectedItem.toString()
+
+        val roommateChecked =
+            cbRoommate.isChecked
+
+        val apartmentChecked =
+            cbApartment.isChecked
+
+        val offeringChecked =
+            cbOffering.isChecked
+
         filteredList.clear()
 
         for (post in postList) {
@@ -188,28 +373,57 @@ class SearchActivity : AppCompatActivity() {
             val postPrice =
                 post.price.toIntOrNull() ?: 0
 
-            val matchesSearch =
+            val postGenderCode =
+                when (post.gender.lowercase()) {
+                    "female", "женско" -> "female"
+                    "male", "машко" -> "male"
+                    else -> post.gender.lowercase()
+                }
 
+            val genderText =
+                if (postGenderCode == "female") {
+                    getString(R.string.female)
+                } else {
+                    getString(R.string.male)
+                }
+
+            val matchesSearch =
                 post.title.lowercase().contains(searchText)
                         ||
                         post.city.lowercase().contains(searchText)
                         ||
-                        post.gender.lowercase().contains(searchText)
+                        genderText.lowercase().contains(searchText)
 
             val matchesPrice =
-
                 postPrice >= minPrice
                         &&
                         postPrice <= maxPrice
 
             val matchesGender =
-
-                selectedGender == getString(R.string.all)
+                selectedGenderCode == "all"
                         ||
-                        post.gender.equals(
-                            selectedGender,
-                            true
-                        )
+                        postGenderCode == selectedGenderCode
+
+            val matchesCity =
+                selectedCity == getString(R.string.all_cities)
+                        ||
+                        post.city == selectedCity
+
+            val matchesType =
+
+                (!roommateChecked && !apartmentChecked && !offeringChecked)
+
+                        ||
+
+                        (roommateChecked && post.lookingForRoommate)
+
+                        ||
+
+                        (apartmentChecked && post.lookingForApartment)
+
+                        ||
+
+                        (offeringChecked && post.offeringApartment)
 
             if (
                 matchesSearch
@@ -217,11 +431,21 @@ class SearchActivity : AppCompatActivity() {
                 matchesPrice
                 &&
                 matchesGender
+                &&
+                matchesCity
+                &&
+                matchesType
             ) {
 
                 filteredList.add(post)
             }
         }
+
+        tvShownPosts.text =
+            getString(
+                R.string.shown_posts,
+                filteredList.size
+            )
 
         adapter.notifyDataSetChanged()
     }

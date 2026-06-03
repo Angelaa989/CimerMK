@@ -1,4 +1,5 @@
 <resources>
+    <string name="default_web_client_id">624699746827-eej8t0rva7rvqrhs9cciqi9iiphfdeu4.apps.googleusercontent.com</string>
     <string name="app_name">CimerMK</string>
     <string name="create_account">Create account</string>
     <string name="app_slogan">Find a roommate or apartment</string>
@@ -6,6 +7,39 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="logout">Logout</string>
+    <string name="continue_as_guest">Continue as guest</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="language">Language</string>
+
+    <string name="forgot_password">Forgot password?</string>
+    <string name="or_continue_with">Or continue with</string>
+    <string name="sign_in_facebook">Sign in with Facebook</string>
+
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="select_gender">Select gender</string>
+    <string name="select_city">Select city</string>
+    <string name="email_label">Email</string>
+    <string name="gender_label">Gender</string>
+    <string name="city_label">City</string>
+    <string name="age_label">Age</string>
+    <string name="faculty_label">Faculty</string>
+
+    <string name="age_optional">Age (optional)</string>
+    <string name="faculty_optional">Faculty (optional)</string>
+    <string name="select_contact_type">Select contact type</string>
+    <string name="phone">Phone</string>
+    <string name="instagram">Instagram</string>
+    <string name="facebook">Facebook</string>
+    <string name="viber">Viber</string>
+    <string name="contact_info">Contact info</string>
+
+    <string name="looking_for_roommate">Looking for roommate</string>
+    <string name="looking_for_apartment">Looking for apartment</string>
+    <string name="offering_apartment">Offering apartment</string>
+
+    <string name="enter_email_first">Enter your email first</string>
+    <string name="password_reset_sent">Password reset email sent</string>
 
     <string name="create_roommate_post">Create roommate post</string>
     <string name="email">Email</string>
@@ -37,8 +71,20 @@
 
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="my_posts">My Posts</string>
 
     <string name="cancel">Cancel</string>
+    <string name="save_changes">Save changes</string>
+    <string name="changes_saved">Changes saved successfully</string>
+    <string name="changes_save_error">Error saving changes</string>
+
+    <string name="total_posts">Total posts: %1$d</string>
+    <string name="shown_posts">Shown: %1$d</string>
+    <string name="my_posts_count">My posts: %1$d</string>
+    <string name="saved_posts_count">Saved posts: %1$d</string>
+    <string name="contact_not_added">Contact: Not added</string>
+    <string name="shown_zero">Shown: 0</string>
+    <string name="all_cities">All cities</string>
 
     <string name="confirm_delete">
         Are you sure you want to delete this post?

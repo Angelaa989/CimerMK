@@ -1,5 +1,5 @@
 <resources>
-
+    <string name="default_web_client_id">624699746827-eej8t0rva7rvqrhs9cciqi9iiphfdeu4.apps.googleusercontent.com</string>
     <string name="app_name">CimerMK</string>
     <string name="create_account">Креирај профил</string>
     <string name="app_slogan">Најди цимер или стан</string>
@@ -7,6 +7,39 @@
     <string name="login">Најави се</string>
     <string name="register">Регистрирај се</string>
     <string name="logout">Одјави се</string>
+    <string name="continue_as_guest">Продолжи како гостин</string>
+    <string name="sign_in_google">Најави се со Google</string>
+    <string name="language">Јазик</string>
+
+    <string name="first_name">Име</string>
+    <string name="last_name">Презиме</string>
+    <string name="select_gender">Изберете пол</string>
+    <string name="select_city">Изберете град</string>
+    <string name="email_label">Е-пошта</string>
+    <string name="gender_label">Пол</string>
+    <string name="city_label">Град</string>
+    <string name="age_label">Години</string>
+    <string name="faculty_label">Факултет</string>
+
+    <string name="looking_for_roommate">Барам цимер</string>
+    <string name="looking_for_apartment">Барам стан</string>
+    <string name="offering_apartment">Нудам стан</string>
+
+    <string name="age_optional">Години (опционално)</string>
+    <string name="faculty_optional">Факултет (опционално)</string>
+    <string name="select_contact_type">Изберете тип на контакт</string>
+    <string name="phone">Телефон</string>
+    <string name="instagram">Instagram</string>
+    <string name="facebook">Facebook</string>
+    <string name="viber">Viber</string>
+    <string name="contact_info">Контакт информација</string>
+
+    <string name="enter_email_first">Прво внесете ја вашата е-пошта</string>
+    <string name="password_reset_sent">Испратен е email за ресетирање на лозинка</string>
+
+    <string name="forgot_password">Ја заборави лозинката?</string>
+    <string name="or_continue_with">Или продолжи со</string>
+    <string name="sign_in_facebook">Најави се со Facebook</string>
 
     <string name="create_roommate_post">Креирај оглас за цимер</string>
     <string name="email">Е-пошта</string>
@@ -28,6 +61,7 @@
 
     <string name="save_post">Зачувај оглас</string>
     <string name="update_post">Измени оглас</string>
+    <string name="my_posts">Мои огласи</string>
 
     <string name="search_posts">Пребарај огласи</string>
 
@@ -40,6 +74,17 @@
     <string name="delete">Избриши</string>
 
     <string name="cancel">Откажи</string>
+    <string name="save_changes">Зачувај измени</string>
+    <string name="changes_saved">Измените се успешно зачувани</string>
+    <string name="changes_save_error">Грешка при зачувување на измените</string>
+
+    <string name="total_posts">Вкупно огласи: %1$d</string>
+    <string name="shown_posts">Прикажани: %1$d</string>
+    <string name="my_posts_count">Мои огласи: %1$d</string>
+    <string name="saved_posts_count">Зачувани огласи: %1$d</string>
+    <string name="contact_not_added">Контакт: Не е додаден</string>
+    <string name="shown_zero">Прикажани: 0</string>
+    <string name="all_cities">Сите градови</string>
 
     <string name="confirm_delete">
         Дали сте сигурни дека сакате да го избришете огласот?

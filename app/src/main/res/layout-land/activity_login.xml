@@ -13,29 +13,38 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <ImageButton
+        <TextView
             android:id="@+id/btnLanguage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_language"
-            android:background="@android:color/transparent"
-            android:layout_gravity="end"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🌐"
+            android:textSize="20sp"
+            android:layout_gravity="end"
+            android:padding="8dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_marginTop="-100dp"
-            android:padding="4dp">
+            android:layout_marginTop="20dp"
+            android:padding="8dp">
 
-            <ImageView
-                android:id="@+id/imgLogo"
-                android:layout_width="400dp"
-                android:layout_height="400dp"
-                android:src="@drawable/cimermk_logo"
-                android:contentDescription="@string/app_name"
-                android:layout_marginBottom="-120dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🏠"
+                android:textSize="42sp"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="#009991"
+                android:layout_marginBottom="8dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -94,35 +103,13 @@
                 android:textColor="@android:color/white"
                 android:layout_marginTop="10dp"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
+                android:text="@string/or_continue_with"
+                android:textColor="#666666"
                 android:layout_marginTop="22dp"
-                android:layout_marginBottom="10dp">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="#BDBDBD"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/or_continue_with"
-                    android:textColor="#666666"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"/>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="#BDBDBD"/>
-
-            </LinearLayout>
+                android:layout_marginBottom="10dp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -130,31 +117,40 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="8dp">
 
-                <ImageButton
+                <Button
                     android:id="@+id/btnGoogle"
                     android:layout_width="65dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_google"
+                    android:text="G"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:textStyle="bold"
+                    android:textSize="17sp"
                     android:backgroundTint="#FFFFFF"
-                    android:contentDescription="Google"/>
+                    android:textColor="#DB4437"/>
 
-                <ImageButton
+                <Button
                     android:id="@+id/btnFacebook"
                     android:layout_width="65dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_facebook"
+                    android:text="f"
+                    android:textSize="17sp"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:textStyle="bold"
                     android:backgroundTint="#FFFFFF"
-                    android:layout_marginStart="12dp"
-                    android:contentDescription="Facebook"/>
+                    android:textColor="#1877F2"
+                    android:layout_marginStart="12dp"/>
 
-                <ImageButton
+                <Button
                     android:id="@+id/btnAnonymous"
                     android:layout_width="65dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_guest"
+                    android:text="👤"
+                    android:textSize="13sp"
                     android:backgroundTint="#FFFFFF"
-                    android:layout_marginStart="12dp"
-                    android:contentDescription="Guest"/>
+                    android:textColor="#009991"
+                    android:layout_marginStart="12dp"/>
 
             </LinearLayout>
 

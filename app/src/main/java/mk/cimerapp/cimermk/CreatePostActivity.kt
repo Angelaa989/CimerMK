@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import android.widget.CheckBox
 
 class CreatePostActivity : AppCompatActivity() {
 
@@ -35,6 +36,15 @@ class CreatePostActivity : AppCompatActivity() {
 
         val genderSpinner =
             findViewById<Spinner>(R.id.spGender)
+
+        val lookingForRoommate =
+            findViewById<CheckBox>(R.id.cbLookingForRoommate)
+
+        val lookingForApartment =
+            findViewById<CheckBox>(R.id.cbLookingForApartment)
+
+        val offeringApartment =
+            findViewById<CheckBox>(R.id.cbOfferingApartment)
 
         val saveButton =
             findViewById<Button>(R.id.btnSavePost)
@@ -157,6 +167,14 @@ class CreatePostActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
 
+            val currentUser =
+                FirebaseAuth.getInstance()
+                    .currentUser
+
+            if (currentUser == null) {
+                return@setOnClickListener
+            }
+
             val genderValue =
                 if (genderSpinner.selectedItemPosition == 0) {
                     "male"
@@ -164,48 +182,124 @@ class CreatePostActivity : AppCompatActivity() {
                     "female"
                 }
 
-            val postData = hashMapOf(
+            if (currentUser.isAnonymous) {
 
-                "title" to title.text.toString(),
+                savePost(
+                    "Anonymous",
+                    currentUser.uid,
+                    genderValue,
+                    title.text.toString(),
+                    citySpinner.selectedItem.toString(),
+                    price.text.toString(),
+                    description.text.toString(),
+                    lookingForRoommate.isChecked,
+                    lookingForApartment.isChecked,
+                    offeringApartment.isChecked
+                )
 
-                "city" to citySpinner
-                    .selectedItem
-                    .toString(),
+            } else {
 
-                "price" to price.text.toString(),
+                firestore.collection("users")
+                    .document(currentUser.uid)
+                    .get()
+                    .addOnSuccessListener { document ->
 
-                "description" to description.text.toString(),
+                        val firstName =
+                            document.getString("firstName") ?: ""
 
-                "gender" to genderValue,
+                        val lastName =
+                            document.getString("lastName") ?: ""
 
-                "userId" to FirebaseAuth
-                    .getInstance()
-                    .currentUser
-                    ?.uid
-            )
+                        val authorName =
+                            if (firstName.isNotEmpty() && lastName.isNotEmpty()) {
+                                "$firstName $lastName"
+                            } else {
+                                "User"
+                            }
 
-            firestore.collection("posts")
-                .add(postData)
-
-                .addOnSuccessListener {
-
-                    Toast.makeText(
-                        this,
-                        getString(R.string.post_saved),
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    finish()
-                }
-
-                .addOnFailureListener {
-
-                    Toast.makeText(
-                        this,
-                        getString(R.string.save_error),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                        savePost(
+                            authorName,
+                            currentUser.uid,
+                            genderValue,
+                            title.text.toString(),
+                            citySpinner.selectedItem.toString(),
+                            price.text.toString(),
+                            description.text.toString(),
+                            lookingForRoommate.isChecked,
+                            lookingForApartment.isChecked,
+                            offeringApartment.isChecked
+                        )
+                    }
+            }
         }
+    }
+    private fun savePost(
+        authorName: String,
+        userId: String,
+        genderValue: String,
+        title: String,
+        city: String,
+        price: String,
+        description: String,
+        lookingForRoommate: Boolean,
+        lookingForApartment: Boolean,
+        offeringApartment: Boolean
+    ) {
+
+        val postData = hashMapOf(
+
+            "title" to title,
+
+            "city" to city,
+
+            "price" to price,
+
+            "description" to description,
+
+            "gender" to genderValue,
+
+            "userId" to userId,
+
+            "authorName" to authorName,
+
+            "anonymousSessionId" to
+                    getSharedPreferences(
+                        "app_settings",
+                        MODE_PRIVATE
+                    ).getString(
+                        "anonymousSessionId",
+                        ""
+                    ),
+
+            "createdAt" to System.currentTimeMillis(),
+
+            "lookingForRoommate" to lookingForRoommate,
+
+            "lookingForApartment" to lookingForApartment,
+
+            "offeringApartment" to offeringApartment
+
+        )
+
+        firestore.collection("posts")
+            .add(postData)
+            .addOnSuccessListener {
+
+                Toast.makeText(
+                    this,
+                    getString(R.string.post_saved),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                finish()
+            }
+            .addOnFailureListener {
+
+                Toast.makeText(
+                    this,
+                    getString(R.string.save_error),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 }

@@ -12,7 +12,20 @@
           "package_name": "mk.cimerapp.cimermk"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "624699746827-cu59p2l2cg9r6f8n60eepoqv1eu6hhbk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mk.cimerapp.cimermk",
+            "certificate_hash": "a46e3baacfded6e26b7289d2066f3bb4cc12d1f2"
+          }
+        },
+        {
+          "client_id": "624699746827-eej8t0rva7rvqrhs9cciqi9iiphfdeu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyClQ-I953QV5-PHZGe8mtX_dTCLQ0DsKoE"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624699746827-eej8t0rva7rvqrhs9cciqi9iiphfdeu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

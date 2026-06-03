@@ -7,10 +7,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import android.widget.TextView
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
+
+    private lateinit var tvTotalPosts: TextView
 
     private lateinit var postList: ArrayList<Post>
 
@@ -26,6 +34,9 @@ class HomeActivity : AppCompatActivity() {
 
         recyclerView =
             findViewById(R.id.recyclerPosts)
+
+        tvTotalPosts =
+            findViewById(R.id.tvTotalPosts)
 
         recyclerView.layoutManager =
             LinearLayoutManager(this)
@@ -132,10 +143,52 @@ class HomeActivity : AppCompatActivity() {
 
                     post.documentId = document.id
 
+                    post.isFavorite = false
+
                     postList.add(post)
                 }
 
-                adapter.notifyDataSetChanged()
+                val currentUserId =
+                    FirebaseAuth.getInstance()
+                        .currentUser
+                        ?.uid
+
+                if (currentUserId != null) {
+
+                    val database =
+                        DatabaseProvider.getDatabase(this)
+
+                    CoroutineScope(Dispatchers.IO).launch {
+
+                        val postsSnapshot =
+                            postList.toList()
+
+                        for (post in postsSnapshot) {
+
+                            post.isFavorite =
+                                database.savedPostDao()
+                                    .isPostSaved(
+                                        post.documentId,
+                                        currentUserId
+                                    )
+                        }
+
+                        withContext(Dispatchers.Main) {
+
+                            tvTotalPosts.text =
+                                getString(
+                                    R.string.total_posts,
+                                    postList.size
+                                )
+
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+
+                } else {
+
+                    adapter.notifyDataSetChanged()
+                }
             }
     }
 }

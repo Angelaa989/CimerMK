@@ -33,6 +33,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+
+    <CheckBox
+        android:id="@+id/cbSearchRoommate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/looking_for_roommate"/>
+
+    <CheckBox
+        android:id="@+id/cbSearchApartment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/looking_for_apartment"/>
+
+    <CheckBox
+        android:id="@+id/cbSearchOffering"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/offering_apartment"/>
+
+    <Spinner
+        android:id="@+id/spSearchCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvShownSearchPosts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/shown_zero"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSearch"
         android:layout_width="match_parent"

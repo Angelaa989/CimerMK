@@ -43,6 +43,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <CheckBox
+            android:id="@+id/cbLookingForRoommate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/looking_for_roommate"
+            android:layout_marginTop="12dp"/>
+
+        <CheckBox
+            android:id="@+id/cbLookingForApartment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/looking_for_apartment"/>
+
+        <CheckBox
+            android:id="@+id/cbOfferingApartment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/offering_apartment"/>
+
         <EditText
             android:id="@+id/etDescription"
             android:layout_width="match_parent"

@@ -7,51 +7,31 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class EditPostActivity : AppCompatActivity() {
+class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_edit_post)
+        setContentView(R.layout.activity_edit_profile)
 
         firestore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
 
-        val title =
-            findViewById<EditText>(R.id.etEditTitle)
-
-        val citySpinner =
-            findViewById<Spinner>(R.id.spEditCity)
-
-        val price =
-            findViewById<EditText>(R.id.etEditPrice)
-
-        val description =
-            findViewById<EditText>(R.id.etEditDescription)
-
-        val genderSpinner =
-            findViewById<Spinner>(R.id.spEditGender)
-
-        val cbLookingForRoommate =
-            findViewById<android.widget.CheckBox>(
-                R.id.cbEditLookingForRoommate
-            )
-
-        val cbLookingForApartment =
-            findViewById<android.widget.CheckBox>(
-                R.id.cbEditLookingForApartment
-            )
-
-        val cbOfferingApartment =
-            findViewById<android.widget.CheckBox>(
-                R.id.cbEditOfferingApartment
-            )
-
-        val updateButton =
-            findViewById<Button>(R.id.btnUpdatePost)
+        val firstName = findViewById<EditText>(R.id.etEditFirstName)
+        val lastName = findViewById<EditText>(R.id.etEditLastName)
+        val genderSpinner = findViewById<Spinner>(R.id.spEditProfileGender)
+        val citySpinner = findViewById<Spinner>(R.id.spEditProfileCity)
+        val age = findViewById<EditText>(R.id.etEditAge)
+        val faculty = findViewById<EditText>(R.id.etEditFaculty)
+        val contactTypeSpinner = findViewById<Spinner>(R.id.spEditContactType)
+        val contactInfo = findViewById<EditText>(R.id.etEditContactInfo)
+        val saveButton = findViewById<Button>(R.id.btnSaveProfile)
 
         val genderOptions = arrayOf(
             getString(R.string.male),
@@ -71,7 +51,7 @@ class EditPostActivity : AppCompatActivity() {
         genderSpinner.adapter = genderAdapter
 
         val cityOptions = arrayOf(
-
+            getString(R.string.select_city),
             "Аеродром",
             "Арачиново",
             "Берово",
@@ -170,63 +150,70 @@ class EditPostActivity : AppCompatActivity() {
 
         citySpinner.adapter = cityAdapter
 
-        val documentId =
-            intent.getStringExtra("documentId")
-
-        title.setText(
-            intent.getStringExtra("title")
+        val contactOptions = arrayOf(
+            getString(R.string.phone),
+            getString(R.string.instagram),
+            getString(R.string.facebook),
+            getString(R.string.viber)
         )
 
-        price.setText(
-            intent.getStringExtra("price")
+        val contactAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            contactOptions
         )
 
-        description.setText(
-            intent.getStringExtra("description")
+        contactAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
         )
 
-        val currentGender =
-            intent.getStringExtra("gender")
+        contactTypeSpinner.adapter = contactAdapter
 
-        if (currentGender == "female") {
+        val uid = auth.currentUser?.uid
 
-            genderSpinner.setSelection(1)
+        if (uid != null) {
 
-        } else {
+            firestore.collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener { document ->
 
-            genderSpinner.setSelection(0)
+                    firstName.setText(document.getString("firstName") ?: "")
+                    lastName.setText(document.getString("lastName") ?: "")
+                    age.setText(document.getString("age") ?: "")
+                    faculty.setText(document.getString("faculty") ?: "")
+                    contactInfo.setText(document.getString("contactInfo") ?: "")
+
+                    val gender = document.getString("gender") ?: "male"
+
+                    if (gender == "female") {
+                        genderSpinner.setSelection(1)
+                    } else {
+                        genderSpinner.setSelection(0)
+                    }
+
+                    val city = document.getString("city") ?: ""
+
+                    val cityPosition =
+                        cityOptions.indexOf(city)
+
+                    if (cityPosition >= 0) {
+                        citySpinner.setSelection(cityPosition)
+                    }
+
+                    val contactType =
+                        document.getString("contactType") ?: ""
+
+                    val contactPosition =
+                        contactOptions.indexOf(contactType)
+
+                    if (contactPosition >= 0) {
+                        contactTypeSpinner.setSelection(contactPosition)
+                    }
+                }
         }
 
-        val currentCity =
-            intent.getStringExtra("city")
-
-        val cityPosition =
-            cityOptions.indexOf(currentCity)
-
-        if (cityPosition >= 0) {
-
-            citySpinner.setSelection(cityPosition)
-        }
-
-        cbLookingForRoommate.isChecked =
-            intent.getBooleanExtra(
-                "lookingForRoommate",
-                false
-            )
-
-        cbLookingForApartment.isChecked =
-            intent.getBooleanExtra(
-                "lookingForApartment",
-                false
-            )
-
-        cbOfferingApartment.isChecked =
-            intent.getBooleanExtra(
-                "offeringApartment",
-                false
-            )
-
-        updateButton.setOnClickListener {
+        saveButton.setOnClickListener {
 
             val genderValue =
                 if (genderSpinner.selectedItemPosition == 0) {
@@ -235,49 +222,32 @@ class EditPostActivity : AppCompatActivity() {
                     "female"
                 }
 
-            val updatedPost = hashMapOf<String, Any>(
-
-                "title" to title.text.toString(),
-
-                "city" to citySpinner
-                    .selectedItem
-                    .toString(),
-
-                "price" to price.text.toString(),
-
-                "description" to description
-                    .text
-                    .toString(),
-
+            val updatedUser = hashMapOf<String, Any>(
+                "firstName" to firstName.text.toString().trim(),
+                "lastName" to lastName.text.toString().trim(),
                 "gender" to genderValue,
-
-                "lookingForRoommate" to
-                        cbLookingForRoommate.isChecked,
-
-                "lookingForApartment" to
-                        cbLookingForApartment.isChecked,
-
-                "offeringApartment" to
-                        cbOfferingApartment.isChecked
+                "city" to citySpinner.selectedItem.toString(),
+                "age" to age.text.toString().trim(),
+                "faculty" to faculty.text.toString().trim(),
+                "contactType" to contactTypeSpinner.selectedItem.toString(),
+                "contactInfo" to contactInfo.text.toString().trim()
             )
 
-            if (documentId != null) {
+            if (uid != null) {
 
-                firestore.collection("posts")
-                    .document(documentId)
-                    .update(updatedPost)
-
+                firestore.collection("users")
+                    .document(uid)
+                    .set(updatedUser)
                     .addOnSuccessListener {
 
                         Toast.makeText(
                             this,
-                            getString(R.string.post_updated),
+                            getString(R.string.changes_saved),
                             Toast.LENGTH_SHORT
                         ).show()
 
                         finish()
                     }
-
                     .addOnFailureListener {
 
                         Toast.makeText(

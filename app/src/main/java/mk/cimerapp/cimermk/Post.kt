@@ -16,5 +16,17 @@ data class Post(
 
     var isFavorite: Boolean = false,
 
-    var gender: String = ""
+    var gender: String = "",
+
+    val authorName: String = "",
+
+    val createdAt: Long = 0L,
+
+    var anonymousSessionId: String = "",
+
+    var lookingForRoommate: Boolean = false,
+
+    var lookingForApartment: Boolean = false,
+
+    var offeringApartment: Boolean = false
 )
