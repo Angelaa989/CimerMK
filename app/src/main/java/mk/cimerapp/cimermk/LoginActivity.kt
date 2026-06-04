@@ -17,11 +17,19 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.launch
 import android.widget.ImageButton
 import java.util.UUID
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.google.firebase.auth.FacebookAuthProvider
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var analytics: FirebaseAnalytics
+
+    private lateinit var callbackManager: CallbackManager
 
     private val GOOGLE_SIGN_IN_REQUEST_CODE = 100
 
@@ -35,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         analytics = FirebaseAnalytics.getInstance(this)
+        callbackManager = CallbackManager.Factory.create()
 
         val email = findViewById<EditText>(R.id.etEmail)
         val password = findViewById<EditText>(R.id.etPassword)
@@ -44,6 +53,9 @@ class LoginActivity : AppCompatActivity() {
 
         val googleButton =
             findViewById<ImageButton>(R.id.btnGoogle)
+
+        val facebookButton =
+            findViewById<ImageButton>(R.id.btnFacebook)
 
         val anonymousButton =
             findViewById<ImageButton>(R.id.btnAnonymous)
@@ -191,6 +203,75 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
 
+        facebookButton.setOnClickListener {
+
+            LoginManager.getInstance()
+                .logInWithReadPermissions(
+                    this,
+                    listOf("email", "public_profile")
+                )
+        }
+
+        LoginManager.getInstance()
+            .registerCallback(
+                callbackManager,
+                object : FacebookCallback<LoginResult> {
+
+                    override fun onSuccess(result: LoginResult) {
+
+                        val credential =
+                            FacebookAuthProvider.getCredential(
+                                result.accessToken.token
+                            )
+
+                        auth.signInWithCredential(credential)
+                            .addOnCompleteListener { task ->
+
+                                if (task.isSuccessful) {
+
+                                    analytics.logEvent(
+                                        "facebook_login",
+                                        null
+                                    )
+
+                                    startActivity(
+                                        Intent(
+                                            this@LoginActivity,
+                                            HomeActivity::class.java
+                                        )
+                                    )
+
+                                    finish()
+
+                                } else {
+
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        task.exception?.message,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+                    }
+
+                    override fun onCancel() {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Facebook login cancelled",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    override fun onError(error: FacebookException) {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            error.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            )
+
         languageButton.setOnClickListener {
 
             val popupMenu =
@@ -279,6 +360,12 @@ class LoginActivity : AppCompatActivity() {
         data: Intent?
     ) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        callbackManager.onActivityResult(
+            requestCode,
+            resultCode,
+            data
+        )
 
         if (requestCode == GOOGLE_SIGN_IN_REQUEST_CODE) {
 

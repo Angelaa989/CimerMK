@@ -3,6 +3,9 @@ package mk.cimerapp.cimermk
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
+import android.widget.Button
 
 class PostDetailsActivity : AppCompatActivity() {
 
@@ -19,6 +22,9 @@ class PostDetailsActivity : AppCompatActivity() {
 
         val city =
             findViewById<TextView>(R.id.tvCity)
+
+        val mapButton =
+            findViewById<android.view.View>(R.id.layoutOpenMap)
 
         val price =
             findViewById<TextView>(R.id.tvPrice)
@@ -40,6 +46,25 @@ class PostDetailsActivity : AppCompatActivity() {
 
         city.text =
             intent.getStringExtra("city")
+
+        val cityName =
+            intent.getStringExtra("city") ?: ""
+
+        mapButton.setOnClickListener {
+
+            val uri =
+                Uri.parse(
+                    "https://www.google.com/maps/search/?api=1&query=$cityName, North Macedonia"
+                )
+
+            val mapIntent =
+                Intent(
+                    Intent.ACTION_VIEW,
+                    uri
+                )
+
+            startActivity(mapIntent)
+        }
 
         price.text =
             intent.getStringExtra("price") + " €"

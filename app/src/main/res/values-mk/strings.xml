@@ -85,6 +85,8 @@
     <string name="contact_not_added">Контакт: Не е додаден</string>
     <string name="shown_zero">Прикажани: 0</string>
     <string name="all_cities">Сите градови</string>
+    <string name="view_on_map">Види на мапа</string>
+    <string name="go_to_profile">Профил на авторот</string>
 
     <string name="confirm_delete">
         Дали сте сигурни дека сакате да го избришете огласот?
