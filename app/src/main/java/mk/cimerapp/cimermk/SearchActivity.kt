@@ -54,6 +54,9 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.layoutManager =
             LinearLayoutManager(this)
 
+        recyclerView.isNestedScrollingEnabled = false
+        recyclerView.setHasFixedSize(false)
+
         postList = arrayListOf()
 
         filteredList = arrayListOf()

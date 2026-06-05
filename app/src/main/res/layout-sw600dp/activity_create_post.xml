@@ -11,25 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="32dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_roommate_post"
-            android:textSize="22sp"
+            android:textSize="24sp"
             android:textColor="#2D3748"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="18dp"/>
 
         <!-- Основни информации -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/basic_info"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textColor="#009991"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="10dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -43,7 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="56dp"
-                android:hint="@string/title"/>
+                android:hint="@string/title"
+                android:textSize="14sp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -51,13 +52,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="12dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="8dp"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:boxStrokeColor="#009991"
                 app:hintTextColor="#009991">
@@ -68,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:minHeight="56dp"
                     android:hint="@string/city"
+                    android:textSize="14sp"
                     android:inputType="none"
                     android:clickable="true"
                     android:focusable="false"
@@ -80,7 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:boxStrokeColor="#009991"
                 app:hintTextColor="#009991">
@@ -91,6 +93,7 @@
                     android:layout_height="wrap_content"
                     android:minHeight="56dp"
                     android:hint="@string/gender"
+                    android:textSize="14sp"
                     android:inputType="none"
                     android:clickable="true"
                     android:focusable="false"
@@ -107,7 +110,7 @@
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxStrokeColor="#009991"
             app:hintTextColor="#009991"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPrice"
@@ -115,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="56dp"
                 android:hint="@string/price"
+                android:textSize="14sp"
                 android:inputType="number"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -124,11 +128,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/post_type"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textColor="#009991"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="10dp"/>
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/cbLookingForRoommate"
@@ -136,7 +140,7 @@
             android:layout_height="wrap_content"
             android:text="@string/looking_for_roommate"
             android:textColor="#2D3748"
-            android:textSize="14sp"
+            android:textSize="15sp"
             app:buttonTint="#009991"/>
 
         <com.google.android.material.checkbox.MaterialCheckBox
@@ -145,7 +149,7 @@
             android:layout_height="wrap_content"
             android:text="@string/looking_for_apartment"
             android:textColor="#2D3748"
-            android:textSize="14sp"
+            android:textSize="15sp"
             app:buttonTint="#009991"/>
 
         <com.google.android.material.checkbox.MaterialCheckBox
@@ -154,7 +158,7 @@
             android:layout_height="wrap_content"
             android:text="@string/offering_apartment"
             android:textColor="#2D3748"
-            android:textSize="14sp"
+            android:textSize="15sp"
             app:buttonTint="#009991"/>
 
         <!-- Опис -->
@@ -162,11 +166,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/description"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textColor="#009991"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="10dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -178,8 +182,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDescription"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="140dp"
                 android:hint="@string/description"
+                android:textSize="14sp"
                 android:gravity="top|start"
                 android:inputType="textMultiLine"
                 android:minLines="4"/>
@@ -189,11 +194,12 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSavePost"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="54dp"
             android:text="@string/save_post"
+            android:textSize="15sp"
             android:backgroundTint="#009991"
             android:textColor="@android:color/white"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="26dp"/>
 
     </LinearLayout>
 

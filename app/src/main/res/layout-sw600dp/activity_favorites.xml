@@ -4,51 +4,51 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5FAFA">
 
     <LinearLayout
-        android:id="@+id/homeHeader"
+        android:id="@+id/favoritesHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#085041"
         android:orientation="vertical"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="20dp">
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="24dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CimerMK"
-            android:textSize="14sp"
+            android:text="@string/favorites"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#E1F5EE"/>
 
         <TextView
-            android:id="@+id/tvTotalPosts"
+            android:id="@+id/tvSavedCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Вкупно огласи: 0"
-            android:textSize="12sp"
+            android:text="Зачувани: 0"
+            android:textSize="15sp"
             android:textColor="#5DCAA5"
             android:layout_marginTop="6dp"/>
 
     </LinearLayout>
 
+    <!-- GridLayout со 2 столба за таблет -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerPosts"
+        android:id="@+id/recyclerFavorites"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/homeHeader"
-        android:layout_above="@id/bottomNavigation"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_menu"/>
+        android:layout_below="@id/favoritesHeader"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"/>
 
 </RelativeLayout>

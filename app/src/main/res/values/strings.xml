@@ -14,6 +14,8 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="or_continue_with">Or continue with</string>
     <string name="sign_in_facebook">Sign in with Facebook</string>
+    <string name="basic_info">Basic information</string>
+    <string name="price_euro_optional">Price in euros (€) - optional</string>
 
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
@@ -24,6 +26,10 @@
     <string name="city_label">City</string>
     <string name="age_label">Age</string>
     <string name="faculty_label">Faculty</string>
+    <string name="account">Account</string>
+    <string name="personal_info">Personal information</string>
+    <string name="contact">Contact</string>
+    <string name="contact_type">Contact type</string>
 
     <string name="age_optional">Age (optional)</string>
     <string name="faculty_optional">Faculty (optional)</string>
@@ -33,6 +39,10 @@
     <string name="facebook">Facebook</string>
     <string name="viber">Viber</string>
     <string name="contact_info">Contact info</string>
+    <string name="post_info">Post information</string>
+    <string name="price_euro">Price in euros (€)</string>
+    <string name="post_type">Post type</string>
+
 
     <string name="looking_for_roommate">Looking for roommate</string>
     <string name="looking_for_apartment">Looking for apartment</string>
@@ -56,11 +66,12 @@
 
     <string name="title">Title</string>
     <string name="city">City</string>
-    <string name="price">Price</string>
+    <string name="price">Price in euros (€)</string>
     <string name="description">Description</string>
 
     <string name="save_post">Save Post</string>
     <string name="update_post">Update Post</string>
+    <string name="edit_post">Edit post</string>
 
     <string name="search_posts">Search posts</string>
 
@@ -107,9 +118,10 @@
     <string name="add">Add</string>
     <string name="saved_nav">Saved</string>
     <string name="profile">Profile</string>
+    <string name="user_posts">User posts</string>
 
-    <string name="facebook_app_id">1311635493802092</string>
-    <string name="fb_login_protocol_scheme">fb1311635493802092</string>
-    <string name="facebook_client_token">51f70898f063b32d1a5f0c61962a2c51</string>
+    <string name="facebook_app_id">1409976154305629</string>
+    <string name="fb_login_protocol_scheme">fb1409976154305629</string>
+    <string name="facebook_client_token">2ed7e31e4bf4f1a2e7aa82ed21ae5876</string>
 
 </resources>

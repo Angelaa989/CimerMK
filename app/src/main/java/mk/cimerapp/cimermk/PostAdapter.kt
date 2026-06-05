@@ -96,10 +96,12 @@ class PostAdapter(
 
             intent.putExtra("title", post.title)
             intent.putExtra("authorName", post.authorName)
+            intent.putExtra("userId", post.userId)
             intent.putExtra("city", post.city)
             intent.putExtra("price", post.price)
             intent.putExtra("gender", post.gender)
             intent.putExtra("description", post.description)
+            intent.putExtra("createdAt", post.createdAt)
             intent.putExtra("lookingForRoommate", post.lookingForRoommate)
             intent.putExtra("lookingForApartment", post.lookingForApartment)
             intent.putExtra("offeringApartment", post.offeringApartment)
@@ -109,7 +111,20 @@ class PostAdapter(
 
         holder.title.text = post.title
         holder.city.text = post.city
-        holder.price.text = post.price + " €"
+
+        if (post.price.isNotBlank()) {
+
+            holder.price.text =
+                "${post.price} €"
+
+            holder.price.visibility =
+                View.VISIBLE
+
+        } else {
+
+            holder.price.visibility =
+                View.GONE
+        }
 
         val genderText =
             if (post.gender == "female") {

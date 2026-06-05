@@ -131,6 +131,10 @@ class HomeActivity : AppCompatActivity() {
     private fun loadPosts() {
 
         firestore.collection("posts")
+            .orderBy(
+                "createdAt",
+                com.google.firebase.firestore.Query.Direction.DESCENDING
+            )
             .get()
             .addOnSuccessListener { documents ->
 

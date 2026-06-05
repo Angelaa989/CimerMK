@@ -81,6 +81,9 @@ class ProfileActivity : AppCompatActivity() {
         recyclerMyPosts.layoutManager =
             LinearLayoutManager(this)
 
+        recyclerMyPosts.isNestedScrollingEnabled = false
+        recyclerMyPosts.setHasFixedSize(false)
+
         myPostsList =
             arrayListOf()
 

@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.AutoCompleteTextView
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -26,11 +27,16 @@ class RegisterActivity : AppCompatActivity() {
         val registerButton = findViewById<Button>(R.id.btnRegister)
         val firstName = findViewById<EditText>(R.id.etFirstName)
         val lastName = findViewById<EditText>(R.id.etLastName)
-        val genderSpinner = findViewById<Spinner>(R.id.spRegisterGender)
-        val citySpinner = findViewById<Spinner>(R.id.spRegisterCity)
+        val genderSpinner =
+            findViewById<AutoCompleteTextView>(R.id.spRegisterGender)
+
+        val citySpinner =
+            findViewById<AutoCompleteTextView>(R.id.spRegisterCity)
+
+        val contactTypeSpinner =
+            findViewById<AutoCompleteTextView>(R.id.spContactType)
         val age = findViewById<EditText>(R.id.etAge)
         val faculty = findViewById<EditText>(R.id.etFaculty)
-        val contactTypeSpinner = findViewById<Spinner>(R.id.spContactType)
         val contactInfo = findViewById<EditText>(R.id.etContactInfo)
 
         val genderOptions = arrayOf(
@@ -155,9 +161,9 @@ class RegisterActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        contactTypeSpinner.adapter = contactAdapter
+        contactTypeSpinner.setAdapter(contactAdapter)
+        citySpinner.setAdapter(cityAdapter)
 
-        citySpinner.adapter = cityAdapter
 
         val genderAdapter = ArrayAdapter(
             this,
@@ -169,7 +175,19 @@ class RegisterActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        genderSpinner.adapter = genderAdapter
+        genderSpinner.setAdapter(genderAdapter)
+
+        genderSpinner.setOnClickListener {
+            genderSpinner.showDropDown()
+        }
+
+        citySpinner.setOnClickListener {
+            citySpinner.showDropDown()
+        }
+
+        contactTypeSpinner.setOnClickListener {
+            contactTypeSpinner.showDropDown()
+        }
 
         registerButton.setOnClickListener {
 
@@ -178,27 +196,33 @@ class RegisterActivity : AppCompatActivity() {
             val userFirstName = firstName.text.toString().trim()
             val userLastName = lastName.text.toString().trim()
             val genderValue =
-                when (genderSpinner.selectedItemPosition) {
-                    1 -> "male"
-                    2 -> "female"
+                when (genderSpinner.text.toString()) {
+                    getString(R.string.male) -> "male"
+                    getString(R.string.female) -> "female"
                     else -> ""
                 }
 
             val userCity =
-                if (citySpinner.selectedItemPosition == 0) {
+                if (
+                    citySpinner.text.toString()
+                    == getString(R.string.select_city)
+                ) {
                     ""
                 } else {
-                    citySpinner.selectedItem.toString()
+                    citySpinner.text.toString().trim()
                 }
 
             val userAge = age.text.toString().trim()
             val userFaculty = faculty.text.toString().trim()
 
             val userContactType =
-                if (contactTypeSpinner.selectedItemPosition == 0) {
+                if (
+                    contactTypeSpinner.text.toString()
+                    == getString(R.string.select_contact_type)
+                ) {
                     ""
                 } else {
-                    contactTypeSpinner.selectedItem.toString()
+                    contactTypeSpinner.text.toString().trim()
                 }
 
             val userContactInfo =

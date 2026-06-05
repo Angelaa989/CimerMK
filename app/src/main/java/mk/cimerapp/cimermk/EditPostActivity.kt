@@ -8,6 +8,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
+import android.widget.AutoCompleteTextView
 
 class EditPostActivity : AppCompatActivity() {
 
@@ -24,7 +25,7 @@ class EditPostActivity : AppCompatActivity() {
             findViewById<EditText>(R.id.etEditTitle)
 
         val citySpinner =
-            findViewById<Spinner>(R.id.spEditCity)
+            findViewById<AutoCompleteTextView>(R.id.spEditCity)
 
         val price =
             findViewById<EditText>(R.id.etEditPrice)
@@ -33,7 +34,7 @@ class EditPostActivity : AppCompatActivity() {
             findViewById<EditText>(R.id.etEditDescription)
 
         val genderSpinner =
-            findViewById<Spinner>(R.id.spEditGender)
+            findViewById<AutoCompleteTextView>(R.id.spEditGender)
 
         val cbLookingForRoommate =
             findViewById<android.widget.CheckBox>(
@@ -54,6 +55,7 @@ class EditPostActivity : AppCompatActivity() {
             findViewById<Button>(R.id.btnUpdatePost)
 
         val genderOptions = arrayOf(
+            getString(R.string.select_gender),
             getString(R.string.male),
             getString(R.string.female)
         )
@@ -68,10 +70,14 @@ class EditPostActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        genderSpinner.adapter = genderAdapter
+        genderSpinner.setAdapter(genderAdapter)
+
+        genderSpinner.setOnClickListener {
+            genderSpinner.showDropDown()
+        }
 
         val cityOptions = arrayOf(
-
+            getString(R.string.select_city),
             "Аеродром",
             "Арачиново",
             "Берово",
@@ -168,7 +174,11 @@ class EditPostActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        citySpinner.adapter = cityAdapter
+        citySpinner.setAdapter(cityAdapter)
+
+        citySpinner.setOnClickListener {
+            citySpinner.showDropDown()
+        }
 
         val documentId =
             intent.getStringExtra("documentId")
@@ -188,25 +198,24 @@ class EditPostActivity : AppCompatActivity() {
         val currentGender =
             intent.getStringExtra("gender")
 
-        if (currentGender == "female") {
-
-            genderSpinner.setSelection(1)
-
-        } else {
-
-            genderSpinner.setSelection(0)
-        }
+        genderSpinner.setText(
+            if (currentGender == "female") {
+                getString(R.string.female)
+            } else if (currentGender == "male") {
+                getString(R.string.male)
+            } else {
+                ""
+            },
+            false
+        )
 
         val currentCity =
             intent.getStringExtra("city")
 
-        val cityPosition =
-            cityOptions.indexOf(currentCity)
-
-        if (cityPosition >= 0) {
-
-            citySpinner.setSelection(cityPosition)
-        }
+        citySpinner.setText(
+            currentCity ?: "",
+            false
+        )
 
         cbLookingForRoommate.isChecked =
             intent.getBooleanExtra(
@@ -229,19 +238,37 @@ class EditPostActivity : AppCompatActivity() {
         updateButton.setOnClickListener {
 
             val genderValue =
-                if (genderSpinner.selectedItemPosition == 0) {
-                    "male"
-                } else {
-                    "female"
+                when (genderSpinner.text.toString()) {
+                    getString(R.string.male) -> "male"
+                    getString(R.string.female) -> "female"
+                    else -> ""
                 }
+
+            val selectedCity =
+                if (
+                    citySpinner.text.toString()
+                    == getString(R.string.select_city)
+                ) {
+                    ""
+                } else {
+                    citySpinner.text.toString().trim()
+                }
+
+            if (selectedCity.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.fill_fields),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                return@setOnClickListener
+            }
 
             val updatedPost = hashMapOf<String, Any>(
 
                 "title" to title.text.toString(),
 
-                "city" to citySpinner
-                    .selectedItem
-                    .toString(),
+                "city" to selectedCity,
 
                 "price" to price.text.toString(),
 

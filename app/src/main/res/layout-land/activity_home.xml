@@ -8,20 +8,17 @@
 
     <LinearLayout
         android:id="@+id/homeHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
         android:background="#085041"
         android:orientation="vertical"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="20dp">
+        android:padding="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CimerMK"
-            android:textSize="14sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#E1F5EE"/>
 
@@ -30,9 +27,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Вкупно огласи: 0"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textColor="#5DCAA5"
-            android:layout_marginTop="6dp"/>
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 
@@ -40,7 +37,7 @@
         android:id="@+id/recyclerPosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/homeHeader"
+        android:layout_toEndOf="@id/homeHeader"
         android:layout_above="@id/bottomNavigation"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
@@ -49,6 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/homeHeader"
         app:menu="@menu/bottom_menu"/>
 
 </RelativeLayout>

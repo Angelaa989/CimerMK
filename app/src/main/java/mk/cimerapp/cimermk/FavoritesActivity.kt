@@ -8,6 +8,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.content.res.Configuration
+import androidx.recyclerview.widget.GridLayoutManager
 
 class FavoritesActivity : AppCompatActivity() {
 
@@ -16,6 +18,8 @@ class FavoritesActivity : AppCompatActivity() {
     private lateinit var postList: ArrayList<Post>
 
     private lateinit var adapter: PostAdapter
+
+    private lateinit var tvSavedCount: android.widget.TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +31,20 @@ class FavoritesActivity : AppCompatActivity() {
         recyclerView =
             findViewById(R.id.recyclerFavorites)
 
+        tvSavedCount =
+            findViewById(R.id.tvSavedCount)
+
         recyclerView.layoutManager =
-            LinearLayoutManager(this)
+            if (
+                resources.configuration.orientation ==
+                Configuration.ORIENTATION_LANDSCAPE
+                ||
+                resources.configuration.smallestScreenWidthDp >= 600
+            ) {
+                GridLayoutManager(this, 2)
+            } else {
+                LinearLayoutManager(this)
+            }
 
         postList = arrayListOf()
 
@@ -88,6 +104,12 @@ class FavoritesActivity : AppCompatActivity() {
                 postList.clear()
 
                 postList.addAll(posts)
+
+                tvSavedCount.text =
+                    getString(
+                        R.string.saved_posts_count,
+                        posts.size
+                    )
 
                 adapter.notifyDataSetChanged()
             }

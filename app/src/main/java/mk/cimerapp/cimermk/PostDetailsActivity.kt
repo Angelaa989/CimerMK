@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.net.Uri
 import android.widget.Button
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PostDetailsActivity : AppCompatActivity() {
 
@@ -19,6 +22,15 @@ class PostDetailsActivity : AppCompatActivity() {
 
         val author =
             findViewById<TextView>(R.id.tvAuthor)
+
+        val createdAt =
+            findViewById<TextView>(R.id.tvCreatedAt)
+
+        val authorLayout =
+            findViewById<android.view.View>(R.id.layoutAuthor)
+
+        val userId =
+            intent.getStringExtra("userId") ?: ""
 
         val city =
             findViewById<TextView>(R.id.tvCity)
@@ -44,6 +56,57 @@ class PostDetailsActivity : AppCompatActivity() {
         author.text =
             intent.getStringExtra("authorName")
 
+        val createdAtValue =
+            intent.getLongExtra("createdAt", 0L)
+
+        createdAt.text =
+            if (createdAtValue > 0) {
+                SimpleDateFormat(
+                    "dd.MM.yyyy HH:mm",
+                    Locale.getDefault()
+                ).format(Date(createdAtValue))
+            } else {
+                ""
+            }
+
+        authorLayout.setOnClickListener {
+
+            if (userId.isNotEmpty()) {
+
+                val intent =
+                    Intent(
+                        this,
+                        UserProfileActivity::class.java
+                    )
+
+                intent.putExtra(
+                    "userId",
+                    userId
+                )
+
+                startActivity(intent)
+            }
+        }
+
+        author.setOnClickListener {
+
+            if (userId.isNotEmpty()) {
+
+                val intent =
+                    Intent(
+                        this,
+                        UserProfileActivity::class.java
+                    )
+
+                intent.putExtra(
+                    "userId",
+                    userId
+                )
+
+                startActivity(intent)
+            }
+        }
+
         city.text =
             intent.getStringExtra("city")
 
@@ -66,8 +129,19 @@ class PostDetailsActivity : AppCompatActivity() {
             startActivity(mapIntent)
         }
 
-        price.text =
-            intent.getStringExtra("price") + " €"
+        val priceValue =
+            intent.getStringExtra("price") ?: ""
+
+        if (priceValue.isNotBlank()) {
+
+            price.text =
+                "$priceValue €"
+
+        } else {
+
+            price.visibility =
+                android.view.View.GONE
+        }
 
         val genderValue =
             intent.getStringExtra("gender")

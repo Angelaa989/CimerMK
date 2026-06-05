@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.widget.CheckBox
+import android.widget.AutoCompleteTextView
 
 class CreatePostActivity : AppCompatActivity() {
 
@@ -26,7 +27,7 @@ class CreatePostActivity : AppCompatActivity() {
             findViewById<EditText>(R.id.etTitle)
 
         val citySpinner =
-            findViewById<Spinner>(R.id.spCity)
+            findViewById<AutoCompleteTextView>(R.id.spCity)
 
         val price =
             findViewById<EditText>(R.id.etPrice)
@@ -35,7 +36,7 @@ class CreatePostActivity : AppCompatActivity() {
             findViewById<EditText>(R.id.etDescription)
 
         val genderSpinner =
-            findViewById<Spinner>(R.id.spGender)
+            findViewById<AutoCompleteTextView>(R.id.spGender)
 
         val lookingForRoommate =
             findViewById<CheckBox>(R.id.cbLookingForRoommate)
@@ -50,6 +51,7 @@ class CreatePostActivity : AppCompatActivity() {
             findViewById<Button>(R.id.btnSavePost)
 
         val cities = arrayOf(
+            getString(R.string.select_city),
             "Аеродром",
             "Арачиново",
             "Берово",
@@ -146,9 +148,14 @@ class CreatePostActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        citySpinner.adapter = cityAdapter
+        citySpinner.setAdapter(cityAdapter)
+
+        citySpinner.setOnClickListener {
+            citySpinner.showDropDown()
+        }
 
         val genderOptions = arrayOf(
+            getString(R.string.select_gender),
             getString(R.string.male),
             getString(R.string.female)
         )
@@ -163,7 +170,11 @@ class CreatePostActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        genderSpinner.adapter = genderAdapter
+        genderSpinner.setAdapter(genderAdapter)
+
+        genderSpinner.setOnClickListener {
+            genderSpinner.showDropDown()
+        }
 
         saveButton.setOnClickListener {
 
@@ -175,11 +186,31 @@ class CreatePostActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val genderValue =
-                if (genderSpinner.selectedItemPosition == 0) {
-                    "male"
+            val selectedCity =
+                if (
+                    citySpinner.text.toString()
+                    == getString(R.string.select_city)
+                ) {
+                    ""
                 } else {
-                    "female"
+                    citySpinner.text.toString().trim()
+                }
+
+            if (selectedCity.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.fill_fields),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                return@setOnClickListener
+            }
+
+            val genderValue =
+                when (genderSpinner.text.toString()) {
+                    getString(R.string.male) -> "male"
+                    getString(R.string.female) -> "female"
+                    else -> ""
                 }
 
             if (currentUser.isAnonymous) {
@@ -189,7 +220,7 @@ class CreatePostActivity : AppCompatActivity() {
                     currentUser.uid,
                     genderValue,
                     title.text.toString(),
-                    citySpinner.selectedItem.toString(),
+                    selectedCity,
                     price.text.toString(),
                     description.text.toString(),
                     lookingForRoommate.isChecked,
@@ -222,7 +253,7 @@ class CreatePostActivity : AppCompatActivity() {
                             currentUser.uid,
                             genderValue,
                             title.text.toString(),
-                            citySpinner.selectedItem.toString(),
+                            selectedCity,
                             price.text.toString(),
                             description.text.toString(),
                             lookingForRoommate.isChecked,

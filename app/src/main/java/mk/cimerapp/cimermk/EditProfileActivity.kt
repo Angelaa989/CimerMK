@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import android.widget.AutoCompleteTextView
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -25,15 +26,17 @@ class EditProfileActivity : AppCompatActivity() {
 
         val firstName = findViewById<EditText>(R.id.etEditFirstName)
         val lastName = findViewById<EditText>(R.id.etEditLastName)
-        val genderSpinner = findViewById<Spinner>(R.id.spEditProfileGender)
-        val citySpinner = findViewById<Spinner>(R.id.spEditProfileCity)
+        val genderSpinner = findViewById<AutoCompleteTextView>(R.id.spEditProfileGender)
+        val citySpinner = findViewById<AutoCompleteTextView>(R.id.spEditProfileCity)
         val age = findViewById<EditText>(R.id.etEditAge)
         val faculty = findViewById<EditText>(R.id.etEditFaculty)
-        val contactTypeSpinner = findViewById<Spinner>(R.id.spEditContactType)
+        val contactTypeSpinner =  findViewById<AutoCompleteTextView>(R.id.spEditContactType)
         val contactInfo = findViewById<EditText>(R.id.etEditContactInfo)
         val saveButton = findViewById<Button>(R.id.btnSaveProfile)
+        val email = findViewById<EditText>(R.id.etEditEmail)
 
         val genderOptions = arrayOf(
+            getString(R.string.select_gender),
             getString(R.string.male),
             getString(R.string.female)
         )
@@ -48,7 +51,11 @@ class EditProfileActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        genderSpinner.adapter = genderAdapter
+        genderSpinner.setAdapter(genderAdapter)
+
+        genderSpinner.setOnClickListener {
+            genderSpinner.showDropDown()
+        }
 
         val cityOptions = arrayOf(
             getString(R.string.select_city),
@@ -148,7 +155,11 @@ class EditProfileActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        citySpinner.adapter = cityAdapter
+        citySpinner.setAdapter(cityAdapter)
+
+        citySpinner.setOnClickListener {
+            citySpinner.showDropDown()
+        }
 
         val contactOptions = arrayOf(
             getString(R.string.phone),
@@ -167,7 +178,11 @@ class EditProfileActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        contactTypeSpinner.adapter = contactAdapter
+        contactTypeSpinner.setAdapter(contactAdapter)
+
+        contactTypeSpinner.setOnClickListener {
+            contactTypeSpinner.showDropDown()
+        }
 
         val uid = auth.currentUser?.uid
 
@@ -183,61 +198,60 @@ class EditProfileActivity : AppCompatActivity() {
                     age.setText(document.getString("age") ?: "")
                     faculty.setText(document.getString("faculty") ?: "")
                     contactInfo.setText(document.getString("contactInfo") ?: "")
+                    email.setText(document.getString("email") ?: "")
 
-                    val gender = document.getString("gender") ?: "male"
+                    val gender =
+                        document.getString("gender") ?: ""
 
-                    if (gender == "female") {
-                        genderSpinner.setSelection(1)
-                    } else {
-                        genderSpinner.setSelection(0)
-                    }
+                    genderSpinner.setText(
+                        if (gender == "female") {
+                            getString(R.string.female)
+                        } else if (gender == "male") {
+                            getString(R.string.male)
+                        } else {
+                            ""
+                        },
+                        false
+                    )
 
-                    val city = document.getString("city") ?: ""
+                    citySpinner.setText(
+                        document.getString("city") ?: "",
+                        false
+                    )
 
-                    val cityPosition =
-                        cityOptions.indexOf(city)
-
-                    if (cityPosition >= 0) {
-                        citySpinner.setSelection(cityPosition)
-                    }
-
-                    val contactType =
-                        document.getString("contactType") ?: ""
-
-                    val contactPosition =
-                        contactOptions.indexOf(contactType)
-
-                    if (contactPosition >= 0) {
-                        contactTypeSpinner.setSelection(contactPosition)
-                    }
+                    contactTypeSpinner.setText(
+                        document.getString("contactType") ?: "",
+                        false
+                    )
                 }
         }
 
         saveButton.setOnClickListener {
 
             val genderValue =
-                if (genderSpinner.selectedItemPosition == 0) {
-                    "male"
-                } else {
-                    "female"
+                when (genderSpinner.text.toString()) {
+                    getString(R.string.male) -> "male"
+                    getString(R.string.female) -> "female"
+                    else -> ""
                 }
 
             val updatedUser = hashMapOf<String, Any>(
                 "firstName" to firstName.text.toString().trim(),
                 "lastName" to lastName.text.toString().trim(),
                 "gender" to genderValue,
-                "city" to citySpinner.selectedItem.toString(),
+                "city" to citySpinner.text.toString().trim(),
                 "age" to age.text.toString().trim(),
                 "faculty" to faculty.text.toString().trim(),
-                "contactType" to contactTypeSpinner.selectedItem.toString(),
-                "contactInfo" to contactInfo.text.toString().trim()
+                "contactType" to contactTypeSpinner.text.toString().trim(),
+                "contactInfo" to contactInfo.text.toString().trim(),
+                "email" to email.text.toString().trim()
             )
 
             if (uid != null) {
 
                 firestore.collection("users")
                     .document(uid)
-                    .set(updatedUser)
+                    .update(updatedUser)
                     .addOnSuccessListener {
 
                         Toast.makeText(

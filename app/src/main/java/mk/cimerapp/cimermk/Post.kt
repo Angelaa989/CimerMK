@@ -18,7 +18,7 @@ data class Post(
 
     var gender: String = "",
 
-    val authorName: String = "",
+    var authorName: String = "",
 
     val createdAt: Long = 0L,
 

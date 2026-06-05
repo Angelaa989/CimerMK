@@ -7,22 +7,25 @@
     android:layout_height="match_parent"
     android:background="#F5FAFA">
 
+    <!-- Компактен хедер за landscape (помала висина) -->
     <LinearLayout
         android:id="@+id/favoritesHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#085041"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="20dp">
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/favorites"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#E1F5EE"/>
 
@@ -32,8 +35,7 @@
             android:layout_height="wrap_content"
             android:text="Зачувани: 0"
             android:textSize="14sp"
-            android:textColor="#5DCAA5"
-            android:layout_marginTop="6dp"/>
+            android:textColor="#5DCAA5"/>
 
     </LinearLayout>
 
@@ -44,7 +46,10 @@
         android:layout_below="@id/favoritesHeader"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
         android:clipToPadding="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"/>
 
 </RelativeLayout>

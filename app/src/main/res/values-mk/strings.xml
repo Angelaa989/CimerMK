@@ -10,6 +10,11 @@
     <string name="continue_as_guest">Продолжи како гостин</string>
     <string name="sign_in_google">Најави се со Google</string>
     <string name="language">Јазик</string>
+    <string name="post_info">Информации за оглас</string>
+    <string name="price_euro">Цена во евра (€)</string>
+    <string name="post_type">Тип на оглас</string>
+    <string name="basic_info">Основни информации</string>
+    <string name="price_euro_optional">Цена во евра (€) - опционално</string>
 
     <string name="first_name">Име</string>
     <string name="last_name">Презиме</string>
@@ -20,6 +25,10 @@
     <string name="city_label">Град</string>
     <string name="age_label">Години</string>
     <string name="faculty_label">Факултет</string>
+    <string name="account">Профил</string>
+    <string name="personal_info">Лични информации</string>
+    <string name="contact">Контакт</string>
+    <string name="contact_type">Тип на контакт</string>
 
     <string name="looking_for_roommate">Барам цимер</string>
     <string name="looking_for_apartment">Барам стан</string>
@@ -56,7 +65,7 @@
 
     <string name="title">Наслов</string>
     <string name="city">Град</string>
-    <string name="price">Цена</string>
+    <string name="price">Цена во евра (€)</string>
     <string name="description">Опис</string>
 
     <string name="save_post">Зачувај оглас</string>
@@ -69,6 +78,7 @@
     <string name="max_price">Максимална цена</string>
 
     <string name="favorites">Омилени</string>
+    <string name="edit_post">Измени оглас</string>
 
     <string name="edit">Измени</string>
     <string name="delete">Избриши</string>
@@ -107,5 +117,6 @@
     <string name="add">Додај</string>
     <string name="saved_nav">Зачувано</string>
     <string name="profile">Профил</string>
+    <string name="user_posts">Огласи од корисникот</string>
 
 </resources>

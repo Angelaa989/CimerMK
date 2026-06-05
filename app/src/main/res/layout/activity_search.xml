@@ -2,72 +2,264 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:background="#F5FAFA">
 
-    <EditText
-        android:id="@+id/etSearch"
+    <!-- Header -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/search_posts"
-        android:inputType="text"/>
+        android:background="#085041"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="20dp">
 
-    <EditText
-        android:id="@+id/etMinPrice"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_posts"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#E1F5EE"/>
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/min_price"
-        android:inputType="number"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-    <EditText
-        android:id="@+id/etMaxPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/max_price"
-        android:inputType="number"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Spinner
-        android:id="@+id/spGender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <!-- Search field -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginTop="14dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="#FFFFFF">
 
+                <EditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/search_posts"
+                    android:inputType="text"
+                    android:textSize="14sp"
+                    android:textColor="#2D3748"
+                    android:textColorHint="#999999"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="12dp"
+                    android:drawableTint="#085041"
+                    android:background="@null"
+                    android:padding="14dp"/>
 
-    <CheckBox
-        android:id="@+id/cbSearchRoommate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/looking_for_roommate"/>
+            </androidx.cardview.widget.CardView>
 
-    <CheckBox
-        android:id="@+id/cbSearchApartment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/looking_for_apartment"/>
+            <!-- Price range -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="#FFFFFF">
 
-    <CheckBox
-        android:id="@+id/cbSearchOffering"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/offering_apartment"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
 
-    <Spinner
-        android:id="@+id/spSearchCity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+                    <EditText
+                        android:id="@+id/etMinPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/min_price"
+                        android:inputType="number"
+                        android:textSize="14sp"
+                        android:textColor="#2D3748"
+                        android:textColorHint="#999999"
+                        android:background="@null"
+                        android:layout_marginEnd="8dp"/>
 
-    <TextView
-        android:id="@+id/tvShownSearchPosts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/shown_zero"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#1A000000"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerSearch"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+                    <EditText
+                        android:id="@+id/etMaxPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/max_price"
+                        android:inputType="number"
+                        android:textSize="14sp"
+                        android:textColor="#2D3748"
+                        android:textColorHint="#999999"
+                        android:background="@null"
+                        android:layout_marginStart="8dp"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Gender + City spinners -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingTop="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                    <Spinner
+                        android:id="@+id/spGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="14dp"
+                        android:popupBackground="#FFFFFF"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                    <Spinner
+                        android:id="@+id/spSearchCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="14dp"
+                        android:popupBackground="#FFFFFF"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- Post type checkboxes -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="4dp">
+
+                    <CheckBox
+                        android:id="@+id/cbSearchRoommate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/looking_for_roommate"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#2D3748"
+                        android:buttonTint="#085041"
+                        android:padding="10dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginStart="44dp"
+                        android:background="#1A000000"/>
+
+                    <CheckBox
+                        android:id="@+id/cbSearchApartment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/looking_for_apartment"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#2D3748"
+                        android:buttonTint="#085041"
+                        android:padding="10dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginStart="44dp"
+                        android:background="#1A000000"/>
+
+                    <CheckBox
+                        android:id="@+id/cbSearchOffering"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/offering_apartment"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#2D3748"
+                        android:buttonTint="#085041"
+                        android:padding="10dp"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Shown posts count -->
+            <TextView
+                android:id="@+id/tvShownSearchPosts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shown_zero"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#085041"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Results -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="20dp"
+                android:nestedScrollingEnabled="false"
+                android:clipToPadding="false"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
