@@ -119,4 +119,11 @@
     <string name="profile">Профил</string>
     <string name="user_posts">Огласи од корисникот</string>
 
+    <string name="use_current_location">Користи моментална локација</string>
+    <string name="location_permission_denied">Дозволата за локација е одбиена</string>
+    <string name="city_detected">Градот е детектиран: %1$s</string>
+    <string name="could_not_detect_city">Не може да се детектира градот</string>
+    <string name="turn_on_location">Вклучи локација и пробај повторно</string>
+    <string name="location_error">Грешка при земање локација</string>
+
 </resources>

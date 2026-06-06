@@ -120,6 +120,13 @@
     <string name="profile">Profile</string>
     <string name="user_posts">User posts</string>
 
+    <string name="use_current_location">Use current location</string>
+    <string name="location_permission_denied">Location permission denied</string>
+    <string name="city_detected">City detected: %1$s</string>
+    <string name="could_not_detect_city">Could not detect city</string>
+    <string name="turn_on_location">Turn on location and try again</string>
+    <string name="location_error">Location error</string>
+
     <string name="facebook_app_id">1409976154305629</string>
     <string name="fb_login_protocol_scheme">fb1409976154305629</string>
     <string name="facebook_client_token">2ed7e31e4bf4f1a2e7aa82ed21ae5876</string>

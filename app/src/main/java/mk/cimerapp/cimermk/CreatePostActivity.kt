@@ -1,20 +1,45 @@
 package mk.cimerapp.cimermk
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import android.widget.CheckBox
-import android.widget.AutoCompleteTextView
+import java.util.Locale
 
 class CreatePostActivity : AppCompatActivity() {
 
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var citySpinner: AutoCompleteTextView
+
+    private val locationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+
+            if (isGranted) {
+                getCurrentCity()
+            } else {
+                Toast.makeText(
+                    this,
+                    getString(R.string.location_permission_denied),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +47,14 @@ class CreatePostActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_post)
 
         firestore = FirebaseFirestore.getInstance()
+        fusedLocationClient =
+            LocationServices.getFusedLocationProviderClient(this)
 
         val title =
             findViewById<EditText>(R.id.etTitle)
 
-        val citySpinner =
-            findViewById<AutoCompleteTextView>(R.id.spCity)
+        citySpinner =
+            findViewById(R.id.spCity)
 
         val price =
             findViewById<EditText>(R.id.etPrice)
@@ -49,6 +76,13 @@ class CreatePostActivity : AppCompatActivity() {
 
         val saveButton =
             findViewById<Button>(R.id.btnSavePost)
+
+        val locationButton =
+            findViewById<Button>(R.id.btnUseCurrentLocation)
+
+        locationButton.setOnClickListener {
+            checkLocationPermissionAndGetCity()
+        }
 
         val cities = arrayOf(
             getString(R.string.select_city),
@@ -242,7 +276,10 @@ class CreatePostActivity : AppCompatActivity() {
                             document.getString("lastName") ?: ""
 
                         val authorName =
-                            if (firstName.isNotEmpty() && lastName.isNotEmpty()) {
+                            if (
+                                firstName.isNotEmpty()
+                                && lastName.isNotEmpty()
+                            ) {
                                 "$firstName $lastName"
                             } else {
                                 "User"
@@ -264,6 +301,90 @@ class CreatePostActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun checkLocationPermissionAndGetCity() {
+        if (
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            getCurrentCity()
+        } else {
+            locationPermissionLauncher.launch(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        }
+    }
+
+    private fun getCurrentCity() {
+        if (
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+
+                if (location == null) {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.turn_on_location),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@addOnSuccessListener
+                }
+
+                val geocoder =
+                    Geocoder(this, Locale.getDefault())
+
+                val addresses =
+                    geocoder.getFromLocation(
+                        location.latitude,
+                        location.longitude,
+                        1
+                    )
+
+                val detectedCity =
+                    addresses
+                        ?.firstOrNull()
+                        ?.locality
+                        ?: addresses
+                            ?.firstOrNull()
+                            ?.subAdminArea
+
+                if (!detectedCity.isNullOrEmpty()) {
+                    citySpinner.setText(detectedCity, false)
+
+                    Toast.makeText(
+                        this,
+                        getString(
+                            R.string.city_detected,
+                            detectedCity
+                        ),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.could_not_detect_city),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    this,
+                    getString(R.string.location_error),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
     private fun savePost(
         authorName: String,
         userId: String,
@@ -309,7 +430,6 @@ class CreatePostActivity : AppCompatActivity() {
             "lookingForApartment" to lookingForApartment,
 
             "offeringApartment" to offeringApartment
-
         )
 
         firestore.collection("posts")
