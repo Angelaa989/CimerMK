@@ -55,7 +55,6 @@ class FavoritesActivity : AppCompatActivity() {
 
         recyclerView.adapter = adapter
 
-        loadFavoritesFromRoom()
     }
 
     override fun onResume() {
@@ -85,33 +84,53 @@ class FavoritesActivity : AppCompatActivity() {
                 database.savedPostDao()
                     .getPostsForUser(currentUserId)
 
-            val posts =
-                savedPosts.map { savedPost ->
-
-                    Post(
-                        documentId = savedPost.documentId,
-                        title = savedPost.title,
-                        city = savedPost.city,
-                        price = savedPost.price,
-                        gender = savedPost.gender,
-                        description = savedPost.description,
-                        isFavorite = true
-                    )
-                }
-
             withContext(Dispatchers.Main) {
 
                 postList.clear()
 
-                postList.addAll(posts)
-
                 tvSavedCount.text =
                     getString(
                         R.string.saved_posts_count,
-                        posts.size
+                        0
                     )
 
                 adapter.notifyDataSetChanged()
+
+                for (savedPost in savedPosts) {
+
+                    com.google.firebase.firestore.FirebaseFirestore
+                        .getInstance()
+                        .collection("posts")
+                        .document(savedPost.documentId)
+                        .get()
+                        .addOnSuccessListener { document ->
+
+                            if (document.exists()) {
+
+                                val post =
+                                    document.toObject(Post::class.java)
+
+                                if (post != null) {
+
+                                    post.documentId =
+                                        document.id
+
+                                    post.isFavorite =
+                                        true
+
+                                    postList.add(post)
+
+                                    tvSavedCount.text =
+                                        getString(
+                                            R.string.saved_posts_count,
+                                            postList.size
+                                        )
+
+                                    adapter.notifyDataSetChanged()
+                                }
+                            }
+                        }
+                }
             }
         }
     }

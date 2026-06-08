@@ -16,6 +16,8 @@ import kotlinx.coroutines.launch
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var tvFullName: TextView
+
+    private lateinit var tvAvatar: TextView
     private lateinit var tvEmail: TextView
     private lateinit var tvGender: TextView
     private lateinit var tvCity: TextView
@@ -40,6 +42,9 @@ class ProfileActivity : AppCompatActivity() {
 
         tvFullName =
             findViewById(R.id.tvFullName)
+
+        tvAvatar =
+            findViewById(R.id.tvAvatar)
 
         tvEmail =
             findViewById<TextView>(R.id.tvEmail)
@@ -161,6 +166,9 @@ class ProfileActivity : AppCompatActivity() {
 
                     tvFullName.text =
                         "$firstName $lastName"
+
+                    tvAvatar.text =
+                        getInitials(firstName, lastName)
 
                     val genderText =
                         if (gender == "female") {
@@ -286,5 +294,32 @@ class ProfileActivity : AppCompatActivity() {
         finish()
 
         return true
+    }
+
+    private fun getInitials(
+        firstName: String,
+        lastName: String
+    ): String {
+
+        val first =
+            firstName.trim()
+                .firstOrNull()
+                ?.uppercaseChar()
+                ?.toString() ?: ""
+
+        val last =
+            lastName.trim()
+                .firstOrNull()
+                ?.uppercaseChar()
+                ?.toString() ?: ""
+
+        return if (
+            first.isNotEmpty()
+            || last.isNotEmpty()
+        ) {
+            first + last
+        } else {
+            "AN"
+        }
     }
 }

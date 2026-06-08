@@ -33,6 +33,19 @@ class EditPostActivity : AppCompatActivity() {
         val description =
             findViewById<EditText>(R.id.etEditDescription)
 
+        description.setOnTouchListener { view, event ->
+            view.parent.requestDisallowInterceptTouchEvent(true)
+
+            if (
+                event.action == android.view.MotionEvent.ACTION_UP
+                || event.action == android.view.MotionEvent.ACTION_CANCEL
+            ) {
+                view.parent.requestDisallowInterceptTouchEvent(false)
+            }
+
+            false
+        }
+
         val genderSpinner =
             findViewById<AutoCompleteTextView>(R.id.spEditGender)
 

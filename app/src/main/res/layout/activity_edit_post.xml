@@ -181,11 +181,15 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etEditDescription"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="140dp"
                 android:hint="@string/description"
+                android:textSize="14sp"
                 android:gravity="top|start"
                 android:inputType="textMultiLine"
-                android:minLines="4"/>
+                android:minLines="4"
+                android:maxLines="6"
+                android:scrollbars="vertical"
+                android:overScrollMode="always"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -23,6 +23,9 @@ class PostDetailsActivity : AppCompatActivity() {
         val author =
             findViewById<TextView>(R.id.tvAuthor)
 
+        val avatar =
+            findViewById<TextView>(R.id.tvAvatar)
+
         val createdAt =
             findViewById<TextView>(R.id.tvCreatedAt)
 
@@ -53,8 +56,14 @@ class PostDetailsActivity : AppCompatActivity() {
         title.text =
             intent.getStringExtra("title")
 
+        val authorName =
+            intent.getStringExtra("authorName") ?: "Anonymous"
+
         author.text =
-            intent.getStringExtra("authorName")
+            authorName
+
+        avatar.text =
+            getInitials(authorName)
 
         val createdAtValue =
             intent.getLongExtra("createdAt", 0L)
@@ -183,5 +192,28 @@ class PostDetailsActivity : AppCompatActivity() {
             } else {
                 android.view.View.VISIBLE
             }
+    }
+
+    private fun getInitials(fullName: String): String {
+        val cleanName =
+            fullName.trim()
+
+        if (
+            cleanName.isEmpty()
+            || cleanName.equals("Anonymous", ignoreCase = true)
+        ) {
+            return "AN"
+        }
+
+        val parts =
+            cleanName
+                .split("\\s+".toRegex())
+                .filter { it.isNotEmpty() }
+
+        return if (parts.size >= 2) {
+            "${parts[0].first().uppercaseChar()}${parts[1].first().uppercaseChar()}"
+        } else {
+            cleanName.take(2).uppercase()
+        }
     }
 }
